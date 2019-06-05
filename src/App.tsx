@@ -20,7 +20,7 @@ const App: React.FC = () => {
         </a>
       </header>
     </div>
-  )
+  );
 };
 
 export default App;
