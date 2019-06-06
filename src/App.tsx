@@ -22,11 +22,16 @@ const App = observer(({ state }: { state: RootState }) => (
       <div className="m-n2 d-flex">
         <Button
           className="m-2 flex-even"
-          onClick={() => state.generateRandom()}
+          onClick={() => state.generateByRandom()}
         >
           random
         </Button>
-        <Button className="m-2 flex-even">circle</Button>
+        <Button
+          className="m-2 flex-even"
+          onClick={() => state.generateInCircle()}
+        >
+          circle
+        </Button>
       </div>
     </div>
     <div className={css.rightPane + ' p-5'}>

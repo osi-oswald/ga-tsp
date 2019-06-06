@@ -7,17 +7,34 @@ export interface City {
   y: number;
 }
 
-export function randomCity(): City {
+export function cityByRandom(): City {
   return {
     x: Math.random() * scale,
     y: Math.random() * scale
   };
 }
 
-export function randomCities(nrOfCities: number) {
+export function cityByAngle(degree: number): City {
+  const in2Pi = (2 * Math.PI * degree) / 360;
+  const halfScale = scale / 2;
+  return {
+    x: Math.cos(in2Pi) * halfScale + halfScale,
+    y: Math.sin(in2Pi) * halfScale + halfScale
+  };
+}
+
+export function citiesByRandom(nrOfCities: number) {
   const cities: City[] = [];
   for (let i = 0; i < nrOfCities; i++) {
-    cities.push(randomCity());
+    cities.push(cityByRandom());
+  }
+  return cities;
+}
+
+export function citiesInCircle(nrOfCities: number) {
+  const cities: City[] = [];
+  for (let i = 0; i < nrOfCities; i++) {
+    cities.push(cityByAngle((360 * i) / nrOfCities));
   }
   return cities;
 }
@@ -28,7 +45,12 @@ export class RootState {
   @observable nrOfCities: number = 10;
 
   @action
-  generateRandom() {
-    this.cities = randomCities(this.nrOfCities);
+  generateByRandom() {
+    this.cities = citiesByRandom(this.nrOfCities);
+  }
+
+  @action
+  generateInCircle() {
+    this.cities = citiesInCircle(this.nrOfCities);
   }
 }
