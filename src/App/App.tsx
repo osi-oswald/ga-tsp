@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { observer } from 'mobx-react-lite';
 import { RootState } from '../State/RootState';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { CitiesPane } from '../CitiesPane/CitiesPane';
 
 const App = observer(({ state }: { state: RootState }) => (
   <div className={css.host}>
@@ -41,15 +42,7 @@ const App = observer(({ state }: { state: RootState }) => (
       <br />
     </div>
     <div className={css.rightPane + ' p-5'}>
-      <svg
-        viewBox={`-50 -50 ${state.scale + 100} ${state.scale + 100}`}
-        preserveAspectRatio="true"
-        style={{ maxWidth: '100%', maxHeight: '100%' }}
-      >
-        {state.cities.map(city => (
-          <circle cx={city.x} cy={city.y} r="5" fill="red" />
-        ))}
-      </svg>
+      <CitiesPane scale={state.scale} cities={state.cities} />
     </div>
   </div>
 ));
