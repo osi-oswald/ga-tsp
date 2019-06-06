@@ -31,6 +31,16 @@ export function citiesByRandom(nrOfCities: number) {
   return cities;
 }
 
+export function findPathByNearestNeighbour(cities: City[]) {
+  /*const unvisited = [...cities];
+  const current = unvisited.shift();
+  let cityMinX: City;
+  let cityMinY: City;
+  for (const city of unvisited) {
+
+  }*/
+}
+
 export function citiesInCircle(nrOfCities: number) {
   const cities: City[] = [];
   for (let i = 0; i < nrOfCities; i++) {
@@ -57,4 +67,7 @@ export class RootState {
   generateInCircle() {
     this.cities = citiesInCircle(this.nrOfCities);
   }
+
+  @action
+  findPathByNearestNeighbour() {}
 }

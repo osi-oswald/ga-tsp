@@ -34,7 +34,7 @@ const App = observer(({ state }: { state: RootState }) => (
         </Button>
       </div>
       <br />
-      <FormLabel>Path by neared neighbour</FormLabel>
+      <FormLabel>Path by nearest neighbour</FormLabel>
       <div className="d-flex">
         <Button className="flex-even">find</Button>
       </div>
@@ -46,8 +46,8 @@ const App = observer(({ state }: { state: RootState }) => (
         preserveAspectRatio="true"
         style={{ maxWidth: '100%', maxHeight: '100%' }}
       >
-        {state.cities.map(c => (
-          <circle cx={c.x} cy={c.y} r="5" fill="red" />
+        {state.cities.map(city => (
+          <circle cx={city.x} cy={city.y} r="5" fill="red" />
         ))}
       </svg>
     </div>
