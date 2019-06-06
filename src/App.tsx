@@ -33,6 +33,12 @@ const App = observer(({ state }: { state: RootState }) => (
           circle
         </Button>
       </div>
+      <br />
+      <FormLabel>Path by neared neighbour</FormLabel>
+      <div className="d-flex">
+        <Button className="flex-even">find</Button>
+      </div>
+      <br />
     </div>
     <div className={css.rightPane + ' p-5'}>
       <svg

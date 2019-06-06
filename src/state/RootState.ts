@@ -41,8 +41,12 @@ export function citiesInCircle(nrOfCities: number) {
 
 export class RootState {
   readonly scale: number = scale;
-  @observable cities: City[] = [{ x: 0, y: 0 }, { x: scale, y: scale }];
+  @observable cities: City[] = [];
   @observable nrOfCities: number = 10;
+
+  constructor() {
+    this.generateInCircle();
+  }
 
   @action
   generateByRandom() {
