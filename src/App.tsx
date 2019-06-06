@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import cn from './App.module.scss';
+import css from './App.module.scss';
+import Button from 'react-bootstrap/Button';
+import { observer } from 'mobx-react-lite';
+import { RootState } from './state/RootState';
+import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 
-const App: React.FC = () => {
-  return (
-    <div className={cn.host}>
-      <header className={cn.header}>
-        <img src={logo} className={cn.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className={cn.link}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+const App = observer(({ state }: { state: RootState }) => (
+  <div className={css.host}>
+    <div className={css.leftPane + ' p-3'}>
+      <h2>Taveling Salesman</h2>
+      <br />
+      <FormGroup>
+        <FormLabel>Number of cities</FormLabel>
+        <FormControl
+          value={state.nrOfCities ? state.nrOfCities.toString() : ''}
+          onChange={(e: any) => (state.nrOfCities = +e.target.value)}
+          type="number"
+          placeholder="Number of cities"
+        />
+      </FormGroup>
+      <div className="m-n2 d-flex">
+        <Button
+          className="m-2 flex-even"
+          onClick={() => state.generateRandom()}
         >
-          Learn React
-        </a>
-      </header>
+          random
+        </Button>
+        <Button className="m-2 flex-even">circle</Button>
+      </div>
     </div>
-  );
-};
+    <div className={css.rightPane + ' p-5'}>
+      <svg
+        viewBox={`-50 -50 ${state.scale + 100} ${state.scale + 100}`}
+        preserveAspectRatio="true"
+        style={{ maxWidth: '100%', maxHeight: '100%' }}
+      >
+        {state.cities.map(c => (
+          <circle cx={c.x} cy={c.y} r="5" fill="red" />
+        ))}
+      </svg>
+    </div>
+  </div>
+));
 
 export default App;

@@ -12,4 +12,14 @@ code {
     monospace;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.flex-even {
+  flex: 1;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
