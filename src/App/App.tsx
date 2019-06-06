@@ -2,7 +2,7 @@ import React from 'react';
 import css from './App.module.scss';
 import Button from 'react-bootstrap/Button';
 import { observer } from 'mobx-react-lite';
-import { RootState } from '../state/RootState';
+import { RootState } from '../State/RootState';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 
 const App = observer(({ state }: { state: RootState }) => (
