@@ -20,28 +20,25 @@ export function binarySearchAsc<T>(items: T[], item: T, getValue: (i: T) => numb
     middleValue = getValue(items[middleIndex]);
   }
 
-  if (items[middleIndex] === item) {
-    // item was found, but might not be first occurrence
-    while (items[--middleIndex] === item) {}
-    return middleIndex + 1;
-  } else if (middleValue === itemValue) {
-    // different item with same item value was found
+  if (middleValue === itemValue) {
+    // find first occurrence of item
 
-    // search forward
-    let index = middleIndex;
-    while (++index < items.length && getValue(items[index]) === itemValue) {
-      if (items[index] === item) {
-        return index;
+    function search(index: number, endIndex: number, direction: -1 | 1): number {
+      let result = index;
+      while (index !== endIndex && getValue(items[index]) === itemValue) {
+        if (items[index] === item) {
+          result = index;
+        }
+        index += direction;
       }
+      return result;
     }
 
-    // search backward
-    while (--middleIndex > -1 && getValue(items[middleIndex]) === itemValue) {
-      if (items[middleIndex] === item) {
-        return middleIndex;
-      }
+    middleIndex = search(middleIndex, -1, -1);
+    if (items[middleIndex] !== item) {
+      middleIndex = search(middleIndex + 1, items.length, +1);
     }
   }
 
-  return -1;
+  return items[middleIndex] === item ? middleIndex : -1;
 }

@@ -18,8 +18,11 @@ export function pickRoulette<T>(
 
   if (exclude) {
     let index = binarySearchAsc(population, exclude, c => c[fitnessSym]);
-    while (population[index++] === exclude) {
-      populationFitness -= exclude[fitnessSym];
+    while (index < population.length && population[index][fitnessSym] === exclude[fitnessSym]) {
+      if (population[index] === exclude) {
+        populationFitness -= exclude[fitnessSym];
+      }
+      index++;
     }
   }
 
