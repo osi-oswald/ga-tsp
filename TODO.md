@@ -1,12 +1,12 @@
 ### todo
 
 - GA classic
-  - Selection
+  - ✔ Selection
   - ✔ Mutation
   - ✔ Crossover
+  - Termination condition
   - Inputs
   - Stats
-  - Termination condition
 - GA self
 - paint path over svg?
 
@@ -14,9 +14,9 @@
 
 ### done
 
-- on enter -> generate cities
-- proper blocks
-- reset method
-- make utils.ts
-- point interface
-- rework scale
+- ✔ on enter -> generate cities
+- ✔ proper blocks
+- ✔ reset method
+- ✔ make utils.ts
+- ✔ point interface
+- ✔ rework scale

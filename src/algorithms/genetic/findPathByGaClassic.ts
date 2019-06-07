@@ -4,7 +4,7 @@ import { Chromosome } from './utils';
 import { pickRoulette } from './utils/selection';
 import { crossoverOrder1 } from './utils/crossover';
 import { mutateSwap1 } from './utils/mutation';
-import { addFitness, fitnessAsc } from './utils/fitness';
+import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
 export function findPathByGaClassic<T extends Point>(args: {
   cities: T[];
@@ -15,29 +15,35 @@ export function findPathByGaClassic<T extends Point>(args: {
 }): T[] {
   // Initialize population
   let population: Chromosome<T>[] = [];
+  let populationFitness = 0;
   for (let i = 0; i < args.populationSize; i++) {
-    const candidate = shuffle(args.cities);
-    population.push(addFitness(candidate));
+    const candidate = addFitness(shuffle(args.cities));
+    population.push(candidate);
+    populationFitness += candidate[fitnessSym];
   }
   population.sort(fitnessAsc);
 
   let generationCount = 0;
   while (generationCount < 10) {
     const newPopulation: Chromosome<T>[] = [];
+    let newPopulationFitness = 0;
 
     // Save elites
     if (args.elitismRate) {
       const elites = population.slice(0, args.populationSize * args.elitismRate);
-      newPopulation.push(...elites);
+      elites.forEach(elite => {
+        newPopulation.push(elite);
+        newPopulationFitness += elite[fitnessSym];
+      });
     }
 
     while (newPopulation.length < args.populationSize) {
       // Selection
-      let candidate = pickRoulette(population);
+      let candidate = pickRoulette(population, populationFitness);
 
       // Crossover
       if (Math.random() < args.crossoverRate) {
-        const mate = pickRoulette(population, candidate);
+        const mate = pickRoulette(population, populationFitness, candidate);
         const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
         candidate = children.sort(fitnessAsc)[0];
       }
@@ -48,11 +54,13 @@ export function findPathByGaClassic<T extends Point>(args: {
       }
 
       newPopulation.push(candidate);
+      newPopulationFitness += candidate[fitnessSym];
       generationCount++;
     }
 
     population = newPopulation;
     population.sort(fitnessAsc);
+    populationFitness = newPopulationFitness;
   }
 
   return population[0];

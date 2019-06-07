@@ -1,23 +1,33 @@
 import { randomExclusive } from '../../common';
 import { Chromosome } from './index';
+import { fitnessSym } from './fitness';
 
 export function pickRoulette<T>(
   population: Chromosome<T>[],
+  populationFitness: number,
   exclude?: Chromosome<T>
 ): Chromosome<T> {
   if (!population.length) {
     throw new Error('pickRoulette: population size must be > 0');
   }
 
-  const index = randomExclusive(population.length);
-  let candidate = population[randomExclusive(population.length)];
-
-  if (candidate === exclude) {
+  if (exclude) {
     if (population.length <= 1) {
       throw new Error('pickRoulette with exclude: population size must be > 1');
     }
-    candidate = population[(index + 1) % population.length];
+    populationFitness -= exclude[fitnessSym];
   }
 
-  return candidate;
+  let accumulator = 0;
+  const pick = randomExclusive(populationFitness);
+  for (const candidate of population) {
+    if (candidate !== exclude) {
+      accumulator += candidate[fitnessSym];
+      if (pick < accumulator) {
+        return candidate;
+      }
+    }
+  }
+
+  throw new Error('pickRoulette: this should never happen ;-)');
 }
