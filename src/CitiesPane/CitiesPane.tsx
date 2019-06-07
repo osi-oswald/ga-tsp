@@ -25,8 +25,8 @@ export const CitiesPane = observer(
           key={city.id}
           x1={city.x}
           y1={city.y}
-          x2={(paths[i + 1 === paths.length ? 0 : i + 1] || paths[0]).x}
-          y2={(paths[i + 1 === paths.length ? 0 : i + 1] || paths[0]).y}
+          x2={(paths[i === paths.length - 1 ? 0 : i + 1] || paths[0]).x}
+          y2={(paths[i === paths.length - 1 ? 0 : i + 1] || paths[0]).y}
           strokeWidth="3"
           stroke="lime"
         />

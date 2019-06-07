@@ -1,0 +1,2 @@
+- on enter -> generate cities
+- proper blocks

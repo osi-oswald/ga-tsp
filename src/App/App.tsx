@@ -9,7 +9,7 @@ import { CitiesPane } from '../CitiesPane/CitiesPane';
 const App = observer(({ state }: { state: RootState }) => (
   <div className={css.host}>
     <div className={css.leftPane + ' p-3'}>
-      <h2>Taveling Salesman</h2>
+      <h2>Traveling Salesman</h2>
       <br />
       <FormGroup>
         <FormLabel>Number of cities</FormLabel>
@@ -35,12 +35,17 @@ const App = observer(({ state }: { state: RootState }) => (
         </Button>
       </div>
       <br />
-      <Button
-        className="w-100"
-        onClick={() => state.findPathByNearestNeighbour()}
-      >
-        Path by nearest neighbour
-      </Button>
+      <div>
+        <Button
+          className="w-100"
+          onClick={() => state.findPathByNearestNeighbour()}
+        >
+          Path by nearest neighbour
+        </Button>
+      </div>
+      <p className="py-2 text-center">
+        Length by nearest neighbour: {state.pathLengthByNearestNeighbour}
+      </p>
     </div>
     <div className={css.rightPane + ' p-5'}>
       <CitiesPane
