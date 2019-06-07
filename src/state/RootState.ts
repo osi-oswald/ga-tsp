@@ -3,15 +3,15 @@ import { pathLength } from '../algorithms/common/points';
 import { City, generateCitiesByRandom, generateCitiesInCircle } from '../algorithms/common/cities';
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
 import { shuffle } from '../algorithms/common';
-import { findPathByGaClassic } from '../algorithms/genetic/findPathByGaClassic';
+import { findPathByGaByBook } from '../algorithms/genetic/findPathByGaByBook';
 
 export class RootState {
   @observable cities: City[] = [];
   @observable path: City[] = [];
   @observable pathByNearestNeighbour: City[] = [];
   @observable pathByRandom: City[] = [];
-  @observable pathByGaClassic: City[] = [];
-  @observable generationsOfGaClassic: number = 0;
+  @observable pathByGaByBook: City[] = [];
+  @observable generationsOfGaByBook: number = 0;
   @observable nrOfCities: number = 15;
   @observable generatorChoice: any;
 
@@ -25,8 +25,8 @@ export class RootState {
     this.path = [];
     this.pathByNearestNeighbour = [];
     this.pathByRandom = [];
-    this.pathByGaClassic = [];
-    this.generationsOfGaClassic = 0;
+    this.pathByGaByBook = [];
+    this.generationsOfGaByBook = 0;
   }
 
   @action
@@ -59,8 +59,8 @@ export class RootState {
   }
 
   @action
-  findPathByGaClassic() {
-    const result = findPathByGaClassic({
+  findPathByGaByBook() {
+    const result = findPathByGaByBook({
       cities: this.cities,
       populationSize: 1000,
       crossoverRate: 0.3,
@@ -69,8 +69,8 @@ export class RootState {
       maxStaleGenerations: 20
     });
     this.path = result.path;
-    this.pathByGaClassic = this.path;
-    this.generationsOfGaClassic = result.generations;
+    this.pathByGaByBook = this.path;
+    this.generationsOfGaByBook = result.generations;
   }
 
   @computed
@@ -84,7 +84,7 @@ export class RootState {
   }
 
   @computed
-  get pathLengthByGaClassic() {
-    return pathLength(this.pathByGaClassic);
+  get pathLengthByGaByBook() {
+    return pathLength(this.pathByGaByBook);
   }
 }

@@ -1,13 +1,5 @@
 ### todo
 
-- GA classic
-  - ✔ Selection
-    - ✔ Normalize
-  - ✔ Mutation
-  - ✔ Crossover
-  - ✔ Termination condition
-  - ✔ Stats
-  - Inputs
 - GA self
 - paint path over svg?
 
@@ -15,6 +7,14 @@
 
 ### done
 
+- ✔ GA by book
+  - ✔ Selection
+    - ✔ Normalize
+  - ✔ Mutation
+  - ✔ Crossover
+  - ✔ Termination condition
+  - ✔ Stats
+  - Inputs
 - ✔ on enter -> generate cities
 - ✔ proper blocks
 - ✔ reset method

@@ -6,7 +6,7 @@ import { crossoverOrder1 } from './utils/crossover';
 import { mutateSwap1 } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
-export function findPathByGaClassic<T extends Point>(args: {
+export function findPathByGaByBook<T extends Point>(args: {
   cities: T[];
   populationSize: number;
   crossoverRate: number;
@@ -22,9 +22,7 @@ export function findPathByGaClassic<T extends Point>(args: {
   }
 
   if (!args.maxGenerations && !args.maxStaleGenerations) {
-    throw new Error(
-      'findPathByGaClassic: either maxGenerations or maxStaleGenerations must be set'
-    );
+    throw new Error('findPathByGaByBook: either maxGenerations or maxStaleGenerations must be set');
   }
   const maxGenerations = args.maxGenerations || Infinity;
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
