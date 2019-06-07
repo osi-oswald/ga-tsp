@@ -1,5 +1,4 @@
-import { randomExclusive } from '../../common';
-import { Chromosome, binarySearchAsc } from './index';
+import { binarySearchAsc, Chromosome } from './index';
 import { fitnessSym } from './fitness';
 
 // @ts-ignore
@@ -27,10 +26,10 @@ export function pickRoulette<T>(
   }
 
   let accumulator = 0;
-  const pick = randomExclusive(populationFitness);
+  const pick = Math.random();
   for (const candidate of population) {
     if (candidate !== exclude) {
-      accumulator += candidate[fitnessSym];
+      accumulator += candidate[fitnessSym] / populationFitness;
       if (pick < accumulator) {
         return candidate;
       }
