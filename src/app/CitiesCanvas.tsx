@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { City } from '../algorithms/utils/cities';
+import { City } from '../algorithms/common/cities';
 
 export const CitiesCanvas = observer<{ cities: City[]; path: City[] }>(({ cities, path }) => (
   <svg

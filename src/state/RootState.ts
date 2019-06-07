@@ -1,8 +1,8 @@
 import { action, computed, observable } from 'mobx';
-import { pathLength } from '../algorithms/utils/points';
-import { generateCitiesByRandom, generateCitiesInCircle, City } from '../algorithms/utils/cities';
+import { pathLength } from '../algorithms/common/points';
+import { generateCitiesByRandom, generateCitiesInCircle, City } from '../algorithms/common/cities';
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
-import { shuffle } from '../algorithms/utils';
+import { shuffle } from '../algorithms/common';
 
 export class RootState {
   @observable cities: City[] = [];

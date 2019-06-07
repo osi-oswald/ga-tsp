@@ -1,43 +1,12 @@
-/*
-TODO:
-- elitism
-- crossover: by order 1
-- mutation: by swapping
- */
+import { Point } from '../common/points';
+import { shuffle } from '../common';
+import { Chromosome } from './utils';
+import { pickRoulette } from './utils/selection';
+import { crossoverOrder1 } from './utils/crossover';
+import { mutateSwap1 } from './utils/mutation';
+import { addFitness, fitnessDesc } from './utils/fitness';
 
-import { pathLength, Point } from '../utils/points';
-import { shuffle } from '../utils';
-
-export function pickRoulette<T>(
-  population: Chromosome<T>[],
-  exclude?: Chromosome<T>
-): Chromosome<T> {
-  return null as any;
-}
-
-export function crossoverOrder1<T>(parent1: Chromosome<T>, parent2: Chromosome<T>): [T[], T[]] {
-  return null as any;
-}
-
-export function mutateSwap1<T>(candidate: Chromosome<T>, mutationRate: number): T[] {
-  return null as any;
-}
-
-export function fitness(path: Point[]): number {
-  return pathLength(path);
-}
-
-export const fitnessSym = Symbol('fitness');
-export type Chromosome<T = object> = T[] & { [fitnessSym]: number };
-
-export function addFitness<T extends Point>(candidate: T[]): Chromosome<T> {
-  candidate[fitnessSym] = fitness(candidate);
-  return candidate as Chromosome<T>;
-}
-
-export const fitnessDesc = (a: Chromosome, b: Chromosome) => b[fitnessSym] - a[fitnessSym];
-
-export function findPathByGeneticClassic<T extends Point>(args: {
+export function findPathByGaClassic<T extends Point>(args: {
   cities: T[];
   populationSize: number;
   crossoverRate: number;
