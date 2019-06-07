@@ -5,10 +5,11 @@
 
 .leftPane {
   min-width: 300px;
-  background: lightgreen;
+  background: #222;
+  color: #ddd;
 }
 
 .rightPane {
   flex-grow: 1;
-  background: lightblue;
+  background: beige;
 }

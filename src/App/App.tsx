@@ -35,14 +35,19 @@ const App = observer(({ state }: { state: RootState }) => (
         </Button>
       </div>
       <br />
-      <FormLabel>Path by nearest neighbour</FormLabel>
-      <div className="d-flex">
-        <Button className="flex-even">find</Button>
-      </div>
-      <br />
+      <Button
+        className="w-100"
+        onClick={() => state.findPathByNearestNeighbour()}
+      >
+        Path by nearest neighbour
+      </Button>
     </div>
     <div className={css.rightPane + ' p-5'}>
-      <CitiesPane scale={state.scale} cities={state.cities} />
+      <CitiesPane
+        scale={state.scale}
+        cities={state.cities}
+        paths={state.paths}
+      />
     </div>
   </div>
 ));

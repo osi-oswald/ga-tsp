@@ -3,14 +3,33 @@ import { City } from '../State/RootState';
 import { observer } from 'mobx-react-lite';
 
 export const CitiesPane = observer(
-  ({ scale, cities }: { scale: number; cities: City[] }) => (
+  ({
+    scale,
+    cities,
+    paths
+  }: {
+    scale: number;
+    cities: City[];
+    paths: City[];
+  }) => (
     <svg
       viewBox={`-50 -50 ${scale + 100} ${scale + 100}`}
-      preserveAspectRatio="true"
+      preserveAspectRatio="xMidYMid"
       style={{ maxWidth: '100%', maxHeight: '100%' }}
     >
       {cities.map(city => (
-        <circle cx={city.x} cy={city.y} r="5" fill="red" />
+        <circle key={city.id} cx={city.x} cy={city.y} r="5" fill="red" />
+      ))}
+      {paths.map((city, i) => (
+        <line
+          key={city.id}
+          x1={city.x}
+          y1={city.y}
+          x2={(paths[i + 1 === paths.length ? 0 : i + 1] || paths[0]).x}
+          y2={(paths[i + 1 === paths.length ? 0 : i + 1] || paths[0]).y}
+          strokeWidth="3"
+          stroke="lime"
+        />
       ))}
     </svg>
   )
