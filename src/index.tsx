@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App/App';
+import App from './app/App';
 import * as serviceWorker from './serviceWorker';
-import { RootState } from './State/RootState';
+import { RootState } from './state/RootState';
 
 const rootState = new RootState();
 

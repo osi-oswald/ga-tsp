@@ -1,20 +1,10 @@
 import React from 'react';
 import css from './App.module.scss';
 import { observer } from 'mobx-react-lite';
-import { RootState } from '../State/RootState';
+import { RootState } from '../state/RootState';
 import { CitiesCanvas } from './CitiesCanvas';
 import { NearestNeighbourControl } from './controls/NearestNeighbourControl';
 import { GenerateCitiesControl } from './controls/GenerateCitiesControl';
-
-/**
- * prevent default
- */
-export function pd<T extends Function>(handler: T) {
-  return (e: { preventDefault: Function }) => {
-    e.preventDefault();
-    handler(e);
-  };
-}
 
 const App = observer<{ state: RootState }>(({ state }) => (
   <div className={css.host}>

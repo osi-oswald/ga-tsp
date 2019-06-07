@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { Col, Form, FormControl, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
-import { pd } from '../App';
+import { pd } from '../utils';
 
 export const GenerateCitiesControl = observer<{
   state: {
