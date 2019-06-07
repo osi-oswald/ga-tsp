@@ -6,31 +6,35 @@ TODO:
  */
 
 import { pathLength, Point } from '../utils/points';
-import { randomInt, shuffle } from '../utils';
+import { shuffle } from '../utils';
+
+export function pickRoulette<T>(
+  population: Chromosome<T>[],
+  exclude?: Chromosome<T>
+): Chromosome<T> {
+  return null as any;
+}
+
+export function crossoverOrder1<T>(parent1: Chromosome<T>, parent2: Chromosome<T>): [T[], T[]] {
+  return null as any;
+}
+
+export function mutateSwap1<T>(candidate: Chromosome<T>, mutationRate: number): T[] {
+  return null as any;
+}
 
 export function fitness(path: Point[]): number {
   return pathLength(path);
 }
 
-export function pickRoulette<T>(population: T[], exclude?: T): T {
+export const fitnessSym = Symbol('fitness');
+export type Chromosome<T = object> = T[] & { [fitnessSym]: number };
+
+export function addFitness<T>(candidate: T[]): Chromosome<T> {
   return null as any;
 }
 
-export function pickBest<T>(population: T[]): T {
-  return null as any;
-}
-
-export function pickBestN<T>(population: T[], amount: number): T[] {
-  return null as any;
-}
-
-export function crossoverOrder1<T>(parent1: T, parent2: T): [T, T] {
-  return null as any;
-}
-
-export function mutateSwap1<T>(candidate: T, mutationRate: number): T {
-  return null as any;
-}
+export const fitnessDesc = (a: Chromosome, b: Chromosome) => b[fitnessSym] - a[fitnessSym];
 
 export function findPathByGeneticClassic<T extends Point>(args: {
   cities: T[];
@@ -40,19 +44,20 @@ export function findPathByGeneticClassic<T extends Point>(args: {
   elitismRate?: number;
 }): Point[] {
   // Initialize population
-  let population: T[][] = [];
+  let population: Chromosome<T>[] = [];
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = shuffle(args.cities);
-    population.push(candidate);
+    population.push(addFitness(candidate));
   }
+  population.sort(fitnessDesc);
 
   let generationCount = 0;
   while (generationCount < 10) {
-    const newPopulation: T[][] = [];
+    const newPopulation: Chromosome<T>[] = [];
 
     // Save elites
     if (args.elitismRate) {
-      const elites = pickBestN(population, args.populationSize * args.elitismRate);
+      const elites = population.slice(0, args.populationSize * args.elitismRate);
       newPopulation.push(...elites);
     }
 
@@ -62,13 +67,14 @@ export function findPathByGeneticClassic<T extends Point>(args: {
 
       // Crossover
       if (Math.random() < args.crossoverRate) {
-        const candidateOther = pickRoulette(population, candidate);
-        candidate = pickBest(crossoverOrder1(candidate, candidateOther));
+        const mate = pickRoulette(population, candidate);
+        const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
+        candidate = children.sort(fitnessDesc)[0];
       }
 
       // Mutation
       if (Math.random() < args.mutationRate) {
-        candidate = mutateSwap1(candidate, args.mutationRate);
+        candidate = addFitness(mutateSwap1(candidate, args.mutationRate));
       }
 
       newPopulation.push(candidate);
@@ -76,7 +82,8 @@ export function findPathByGeneticClassic<T extends Point>(args: {
     }
 
     population = newPopulation;
+    population.sort(fitnessDesc);
   }
 
-  return pickBest(population);
+  return population[0];
 }
