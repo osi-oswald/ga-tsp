@@ -57,16 +57,16 @@ export function findPathByGaByMe<T extends Point>(args: {
     const newPopulation: Chromosome<T>[] = [];
     const iter = population[Symbol.iterator]();
     const poolIter = populationPool[Symbol.iterator]();
-    let candidate = iter.next();
-    let poolCandidate = poolIter.next();
+    let iterValue = iter.next().value;
+    let poolIterValue = poolIter.next().value;
 
     while (newPopulation.length < args.populationSize) {
-      if (candidate[fitnessSym] < poolCandidate[fitnessSym]) {
-        newPopulation.push(candidate.value);
-        candidate = iter.next();
+      if (iterValue[fitnessSym] < poolIterValue[fitnessSym]) {
+        newPopulation.push(iterValue);
+        iterValue = iter.next().value;
       } else {
-        newPopulation.push(poolCandidate.value);
-        poolCandidate = poolIter.next();
+        newPopulation.push(poolIterValue);
+        poolIterValue = poolIter.next().value;
       }
     }
 
