@@ -6,8 +6,12 @@
 
 -[ ] paint path over svg
 
--[ ] make utils.ts
+-[x] make utils.ts
 
 -[x] point interface
 
 -[x] rework scale
+
+low prio
+
+-[ ] make last point iteration prettier

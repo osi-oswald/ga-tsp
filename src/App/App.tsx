@@ -64,7 +64,7 @@ const App = observer(({ state }: { state: RootState }) => (
     </div>
 
     <div className={css.rightPane + ' p-5'}>
-      <CitiesPane cities={state.cities} paths={state.paths} />
+      <CitiesPane cities={state.cities} path={state.path} />
     </div>
   </div>
 ));
