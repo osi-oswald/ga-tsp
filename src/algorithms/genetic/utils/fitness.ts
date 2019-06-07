@@ -12,4 +12,4 @@ export function addFitness<T extends Point>(candidate: T[]): Chromosome<T> {
   return candidate as Chromosome<T>;
 }
 
-export const fitnessDesc = (a: Chromosome, b: Chromosome) => b[fitnessSym] - a[fitnessSym];
+export const fitnessAsc = (a: Chromosome, b: Chromosome) => a[fitnessSym] - b[fitnessSym];

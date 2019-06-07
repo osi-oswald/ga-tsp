@@ -4,7 +4,7 @@ import { Chromosome } from './utils';
 import { pickRoulette } from './utils/selection';
 import { crossoverOrder1 } from './utils/crossover';
 import { mutateSwap1 } from './utils/mutation';
-import { addFitness, fitnessDesc } from './utils/fitness';
+import { addFitness, fitnessAsc } from './utils/fitness';
 
 export function findPathByGaClassic<T extends Point>(args: {
   cities: T[];
@@ -19,7 +19,7 @@ export function findPathByGaClassic<T extends Point>(args: {
     const candidate = shuffle(args.cities);
     population.push(addFitness(candidate));
   }
-  population.sort(fitnessDesc);
+  population.sort(fitnessAsc);
 
   let generationCount = 0;
   while (generationCount < 10) {
@@ -39,7 +39,7 @@ export function findPathByGaClassic<T extends Point>(args: {
       if (Math.random() < args.crossoverRate) {
         const mate = pickRoulette(population, candidate);
         const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
-        candidate = children.sort(fitnessDesc)[0];
+        candidate = children.sort(fitnessAsc)[0];
       }
 
       // Mutation
@@ -52,7 +52,7 @@ export function findPathByGaClassic<T extends Point>(args: {
     }
 
     population = newPopulation;
-    population.sort(fitnessDesc);
+    population.sort(fitnessAsc);
   }
 
   return population[0];
