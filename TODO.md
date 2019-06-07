@@ -1,17 +1,18 @@
--[x] on enter -> generate cities
+### todo
 
--[x] proper blocks
+- GA classic
+- GA self
+- paint path over svg
 
--[x] reset method
+### low prio
 
--[ ] paint path over svg
+- make last point iteration prettier
 
--[x] make utils.ts
+### done
 
--[x] point interface
-
--[x] rework scale
-
-low prio
-
--[ ] make last point iteration prettier
+- on enter -> generate cities
+- proper blocks
+- reset method
+- make utils.ts
+- point interface
+- rework scale
