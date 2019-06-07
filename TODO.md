@@ -1,7 +1,9 @@
 -[ ] on enter -> generate cities
 
--[ ] proper blocks
+-[x] proper blocks
 
--[ ] reset method
+-[x] reset method
 
 -[ ] paint path over svg
+
+-[ ] make utils.ts

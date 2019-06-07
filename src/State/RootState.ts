@@ -103,17 +103,20 @@ export class RootState {
   }
 
   @action
-  generateByRandom() {
-    this.cities = citiesByRandom(this.nrOfCities);
+  resetCities(cities: City[]) {
+    this.cities = cities;
     this.paths = [];
     this.pathsByNearestNeighbour = [];
   }
 
   @action
+  generateByRandom() {
+    this.resetCities(citiesByRandom(this.nrOfCities));
+  }
+
+  @action
   generateInCircle() {
-    this.cities = citiesInCircle(this.nrOfCities);
-    this.paths = [];
-    this.pathsByNearestNeighbour = [];
+    this.resetCities(citiesInCircle(this.nrOfCities));
   }
 
   @action
