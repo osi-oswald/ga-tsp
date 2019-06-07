@@ -1,4 +1,4 @@
-import { distance, Point } from '../../utils/points';
+import { distance, Point } from '../utils/points';
 
 export function findPathByNearestNeighbour<T extends Point>(points: T[]): T[] {
   const path: T[] = [];

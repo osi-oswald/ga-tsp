@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
-import { pathLength } from './utils/points';
-import { citiesByRandom, citiesInCircle, City } from './utils/cities';
-import { findPathByNearestNeighbour } from './algorithms/math/findPathByNearestNeighbour';
+import { pathLength } from '../algorithms/utils/points';
+import { citiesByRandom, citiesInCircle, City } from '../algorithms/utils/cities';
+import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
 
 export class RootState {
   @observable cities: City[] = [];
