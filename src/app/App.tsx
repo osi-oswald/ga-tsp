@@ -3,7 +3,8 @@ import css from './App.module.scss';
 import { observer } from 'mobx-react-lite';
 import { RootState } from '../state/RootState';
 import { CitiesCanvas } from './CitiesCanvas';
-import { NearestNeighbourControl } from './controls/NearestNeighbourControl';
+import { FindPathByNearestNeighbourControl } from './controls/FindPathByNearestNeighbourControl';
+import { FindPathByRandomControl } from './controls/FindPathByRandomControl';
 import { GenerateCitiesControl } from './controls/GenerateCitiesControl';
 
 const App = observer<{ state: RootState }>(({ state }) => (
@@ -11,7 +12,8 @@ const App = observer<{ state: RootState }>(({ state }) => (
     <div className={css.leftPane + ' p-3'}>
       <h2>Traveling Salesman</h2>
       <GenerateCitiesControl state={state} />
-      <NearestNeighbourControl state={state} />
+      <FindPathByNearestNeighbourControl state={state} />
+      <FindPathByRandomControl state={state} />
     </div>
     <div className={css.rightPane + ' p-5'}>
       <CitiesCanvas cities={state.cities} path={state.path} />

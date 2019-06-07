@@ -6,7 +6,7 @@ export interface City extends Point {
   id: number;
 }
 
-export function cityByRandom(): City {
+export function newCityByRandom(): City {
   return {
     id: cityId++,
     x: Math.random(),
@@ -14,7 +14,7 @@ export function cityByRandom(): City {
   };
 }
 
-export function cityByAngle(degree: number): City {
+export function newCityByAngle(degree: number): City {
   const in2Pi = (2 * Math.PI * degree) / 360;
   return {
     id: cityId++,
@@ -23,18 +23,18 @@ export function cityByAngle(degree: number): City {
   };
 }
 
-export function citiesByRandom(nrOfCities: number) {
+export function generateCitiesByRandom(nrOfCities: number) {
   const cities: City[] = [];
   for (let i = 0; i < nrOfCities; i++) {
-    cities.push(cityByRandom());
+    cities.push(newCityByRandom());
   }
   return cities;
 }
 
-export function citiesInCircle(nrOfCities: number) {
+export function generateCitiesInCircle(nrOfCities: number) {
   const cities: City[] = [];
   for (let i = 0; i < nrOfCities; i++) {
-    cities.push(cityByAngle((360 * i) / nrOfCities));
+    cities.push(newCityByAngle((360 * i) / nrOfCities));
   }
   return cities;
 }

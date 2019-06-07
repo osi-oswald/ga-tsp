@@ -3,11 +3,11 @@ import { Col, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 
-export const NearestNeighbourControl = observer<{
+export const FindPathByNearestNeighbourControl = observer<{
   state: { findPathByNearestNeighbour: Function; pathLengthByNearestNeighbour: number };
 }>(({ state }) => (
   <div className="my-4">
-    <h6>Nearest Neighbour</h6>
+    <h6>Path by Nearest Neighbour</h6>
     <Row className="my-2">
       <Col>
         <Button className="w-100" onClick={() => state.findPathByNearestNeighbour()}>
