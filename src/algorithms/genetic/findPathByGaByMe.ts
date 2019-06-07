@@ -1,17 +1,14 @@
 import { Point } from '../common/points';
 import { shuffle } from '../common';
 import { Chromosome } from './utils';
-import { pickRoulette } from './utils/selection';
+import { pickRandom, pickRoulette } from './utils/selection';
 import { crossoverOrder1 } from './utils/crossover';
 import { mutateSwap1 } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
-export function findPathByGaByBook<T extends Point>(args: {
+export function findPathByGaByMe<T extends Point>(args: {
   cities: T[];
   populationSize: number;
-  crossoverRate: number;
-  mutationRate: number;
-  elitismRate?: number;
   maxGenerations?: number;
   maxStaleGenerations?: number;
 }): { path: T[]; generations: number } {
@@ -38,31 +35,39 @@ export function findPathByGaByBook<T extends Point>(args: {
   let staleGenerations = 0;
   let bestFitness = population[0][fitnessSym];
   while (generations <= maxGenerations && staleGenerations <= maxStaleGenerations) {
-    const newPopulation: Chromosome<T>[] = [];
+    const populationPool: Chromosome<T>[] = [];
 
-    // Save elites
-    if (args.elitismRate) {
-      const elites = population.slice(0, args.populationSize * args.elitismRate);
-      newPopulation.push(...elites);
+    while (populationPool.length < args.populationSize) {
+      // Candidate Selection
+      let candidate = pickRoulette(population);
+      let mate = pickRandom(population);
+
+      // Candidate Crossover
+      const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
+      candidate = children.sort(fitnessAsc)[0];
+
+      // Candidate Mutation
+      candidate = addFitness(mutateSwap1(candidate));
+
+      populationPool.push(candidate);
     }
+    populationPool.sort(fitnessAsc);
+
+    // Population Selection
+    const newPopulation: Chromosome<T>[] = [];
+    const iter = population[Symbol.iterator]();
+    const poolIter = populationPool[Symbol.iterator]();
+    let candidate = iter.next();
+    let poolCandidate = poolIter.next();
 
     while (newPopulation.length < args.populationSize) {
-      // Selection
-      let candidate = pickRoulette(population);
-
-      // Crossover
-      if (Math.random() < args.crossoverRate) {
-        const mate = pickRoulette(population, candidate);
-        const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
-        candidate = children.sort(fitnessAsc)[0];
+      if (candidate[fitnessSym] < poolCandidate[fitnessSym]) {
+        newPopulation.push(candidate.value);
+        candidate = iter.next();
+      } else {
+        newPopulation.push(poolCandidate.value);
+        poolCandidate = poolIter.next();
       }
-
-      // Mutation
-      if (Math.random() < args.mutationRate) {
-        candidate = addFitness(mutateSwap1(candidate));
-      }
-
-      newPopulation.push(candidate);
     }
 
     population = newPopulation;

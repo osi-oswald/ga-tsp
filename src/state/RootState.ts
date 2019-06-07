@@ -4,16 +4,19 @@ import { City, generateCitiesByRandom, generateCitiesInCircle } from '../algorit
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
 import { shuffle } from '../algorithms/common';
 import { findPathByGaByBook } from '../algorithms/genetic/findPathByGaByBook';
+import { findPathByGaByMe } from '../algorithms/genetic/findPathByGaByMe';
 
 export class RootState {
   @observable cities: City[] = [];
+  @observable generatorChoice: any;
+  @observable nrOfCities: number = 15;
   @observable path: City[] = [];
   @observable pathByNearestNeighbour: City[] = [];
   @observable pathByRandom: City[] = [];
   @observable pathByGaByBook: City[] = [];
   @observable generationsOfGaByBook: number = 0;
-  @observable nrOfCities: number = 15;
-  @observable generatorChoice: any;
+  @observable pathByGaByMe: City[] = [];
+  @observable generationsOfGaByMe: number = 0;
 
   constructor() {
     this.generateCitiesInCircle();
@@ -27,6 +30,8 @@ export class RootState {
     this.pathByRandom = [];
     this.pathByGaByBook = [];
     this.generationsOfGaByBook = 0;
+    this.pathByGaByMe = [];
+    this.generationsOfGaByMe = 0;
   }
 
   @action
@@ -73,6 +78,18 @@ export class RootState {
     this.generationsOfGaByBook = result.generations;
   }
 
+  @action
+  findPathByGaByMe() {
+    const result = findPathByGaByMe({
+      cities: this.cities,
+      populationSize: 1000,
+      maxStaleGenerations: 20
+    });
+    this.path = result.path;
+    this.pathByGaByMe = this.path;
+    this.generationsOfGaByMe = result.generations;
+  }
+
   @computed
   get pathLengthByNearestNeighbour() {
     return pathLength(this.pathByNearestNeighbour);
@@ -86,5 +103,10 @@ export class RootState {
   @computed
   get pathLengthByGaByBook() {
     return pathLength(this.pathByGaByBook);
+  }
+
+  @computed
+  get pathLengthByGaByMe() {
+    return pathLength(this.pathByGaByMe);
   }
 }

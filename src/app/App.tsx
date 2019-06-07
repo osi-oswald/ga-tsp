@@ -7,6 +7,7 @@ import { FindPathByNearestNeighbourControl } from './controls/FindPathByNearestN
 import { FindPathByRandomControl } from './controls/FindPathByRandomControl';
 import { GenerateCitiesControl } from './controls/GenerateCitiesControl';
 import { FindPathByGaByBookControl } from './controls/FindPathByGaByBookControl';
+import { FindPathByGaByMeControl } from './controls/FindPathByGaByMeControl';
 
 const App = observer<{ state: RootState }>(({ state }) => (
   <div className={css.host}>
@@ -16,6 +17,7 @@ const App = observer<{ state: RootState }>(({ state }) => (
       <FindPathByRandomControl state={state} />
       <FindPathByNearestNeighbourControl state={state} />
       <FindPathByGaByBookControl state={state} />
+      <FindPathByGaByMeControl state={state} />
     </div>
     <div className={css.rightPane + ' p-5'}>
       <CitiesCanvas cities={state.cities} path={state.path} />
