@@ -5,22 +5,78 @@ TODO:
 - mutation: by swapping
  */
 
-import { Point } from '../utils/points';
-import { City } from '../utils/cities';
-import { shuffle } from '../utils';
+import { pathLength, Point } from '../utils/points';
+import { randomInt, shuffle } from '../utils';
 
-export function findPathByGeneticClassic(args: {
+export function fitness(path: Point[]): number {
+  return pathLength(path);
+}
+
+export function pickRoulette<T>(population: T[], exclude?: T): T {
+  return null as any;
+}
+
+export function pickBest<T>(population: T[]): T {
+  return null as any;
+}
+
+export function pickBestN<T>(population: T[], amount: number): T[] {
+  return null as any;
+}
+
+export function crossoverOrder1<T>(parent1: T, parent2: T): [T, T] {
+  return null as any;
+}
+
+export function mutateSwap1<T>(candidate: T, mutationRate: number): T {
+  return null as any;
+}
+
+export function findPathByGeneticClassic<T extends Point>(args: {
+  cities: T[];
   populationSize: number;
-  cities: City[];
+  crossoverRate: number;
+  mutationRate: number;
+  elitismRate?: number;
 }): Point[] {
-  let endcondition = false;
-
-  let population = [];
+  // Initialize population
+  let population: T[][] = [];
   for (let i = 0; i < args.populationSize; i++) {
-    let candidate = shuffle(args.cities);
+    const candidate = shuffle(args.cities);
+    population.push(candidate);
   }
 
-  while (!endcondition) {}
+  let generationCount = 0;
+  while (generationCount < 10) {
+    const newPopulation: T[][] = [];
 
-  return null as any;
+    // Save elites
+    if (args.elitismRate) {
+      const elites = pickBestN(population, args.populationSize * args.elitismRate);
+      newPopulation.push(...elites);
+    }
+
+    while (newPopulation.length < args.populationSize) {
+      // Selection
+      let candidate = pickRoulette(population);
+
+      // Crossover
+      if (Math.random() < args.crossoverRate) {
+        const candidateOther = pickRoulette(population, candidate);
+        candidate = pickBest(crossoverOrder1(candidate, candidateOther));
+      }
+
+      // Mutation
+      if (Math.random() < args.mutationRate) {
+        candidate = mutateSwap1(candidate, args.mutationRate);
+      }
+
+      newPopulation.push(candidate);
+      generationCount++;
+    }
+
+    population = newPopulation;
+  }
+
+  return pickBest(population);
 }

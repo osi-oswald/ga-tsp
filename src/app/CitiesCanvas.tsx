@@ -16,8 +16,8 @@ export const CitiesCanvas = observer<{ cities: City[]; path: City[] }>(({ cities
         key={city.id}
         x1={city.x}
         y1={city.y}
-        x2={(path[i === path.length - 1 ? 0 : i + 1] || path[0]).x}
-        y2={(path[i === path.length - 1 ? 0 : i + 1] || path[0]).y}
+        x2={path[(i + 1) % path.length].x}
+        y2={path[(i + 1) % path.length].y}
         strokeWidth="0.003"
         stroke="lime"
       />

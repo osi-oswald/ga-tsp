@@ -9,7 +9,6 @@ export function distance(p1: Point, p2: Point) {
 
 export function pathLength(path: Point[]) {
   return path.reduce((sum, city, i) => {
-    const iNext = i === path.length - 1 ? 0 : i + 1;
-    return sum + distance(city, path[iNext]);
+    return sum + distance(city, path[(i + 1) % path.length]);
   }, 0);
 }
