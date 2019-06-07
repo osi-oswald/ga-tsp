@@ -97,9 +97,10 @@ export class RootState {
   @observable paths: City[] = [];
   @observable pathsByNearestNeighbour: City[] = [];
   @observable nrOfCities: number = 10;
+  @observable generatorChoice: any;
 
   constructor() {
-    this.generateInCircle();
+    this.generateCitiesInCircle();
   }
 
   @action
@@ -110,13 +111,20 @@ export class RootState {
   }
 
   @action
-  generateByRandom() {
-    this.resetCities(citiesByRandom(this.nrOfCities));
+  generateByLastChoice() {
+    this.generatorChoice();
   }
 
   @action
-  generateInCircle() {
+  generateCitiesByRandom() {
+    this.resetCities(citiesByRandom(this.nrOfCities));
+    this.generatorChoice = this.generateCitiesByRandom;
+  }
+
+  @action
+  generateCitiesInCircle() {
     this.resetCities(citiesInCircle(this.nrOfCities));
+    this.generatorChoice = this.generateCitiesInCircle;
   }
 
   @action

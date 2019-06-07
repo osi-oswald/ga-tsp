@@ -1,4 +1,4 @@
--[ ] on enter -> generate cities
+-[x] on enter -> generate cities
 
 -[x] proper blocks
 

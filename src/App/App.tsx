@@ -3,8 +3,18 @@ import css from './App.module.scss';
 import Button from 'react-bootstrap/Button';
 import { observer } from 'mobx-react-lite';
 import { RootState } from '../State/RootState';
-import { Col, FormControl, Row } from 'react-bootstrap';
+import { Col, Form, FormControl, Row } from 'react-bootstrap';
 import { CitiesPane } from '../CitiesPane/CitiesPane';
+
+/**
+ * prevent default
+ */
+export function pd<T extends Function>(handler: T) {
+  return (e: { preventDefault: Function }) => {
+    e.preventDefault();
+    handler(e);
+  };
+}
 
 const App = observer(({ state }: { state: RootState }) => (
   <div className={css.host}>
@@ -16,22 +26,24 @@ const App = observer(({ state }: { state: RootState }) => (
         <Row className="my-2">
           <Col className="my-auto">Count</Col>
           <Col>
-            <FormControl
-              value={state.nrOfCities ? state.nrOfCities.toString() : ''}
-              onChange={(e: any) => (state.nrOfCities = +e.target.value)}
-              type="number"
-              placeholder="Number of cities"
-            />
+            <Form onSubmit={pd(() => state.generateByLastChoice())}>
+              <FormControl
+                value={state.nrOfCities ? state.nrOfCities.toString() : ''}
+                onChange={(e: any) => (state.nrOfCities = +e.target.value)}
+                type="number"
+                placeholder="Number of cities"
+              />
+            </Form>
           </Col>
         </Row>
         <Row className="my-2">
           <Col>
-            <Button className="w-100" onClick={() => state.generateByRandom()}>
+            <Button className="w-100" onClick={() => state.generateCitiesByRandom()}>
               random
             </Button>
           </Col>
           <Col>
-            <Button className="w-100" onClick={() => state.generateInCircle()}>
+            <Button className="w-100" onClick={() => state.generateCitiesInCircle()}>
               circle
             </Button>
           </Col>
