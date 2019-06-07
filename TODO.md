@@ -2,7 +2,8 @@
 
 - GA classic
   - Selection
-  - Mutation -[x] Crossover
+  - ✔ Mutation
+  - ✔ Crossover
   - Inputs
   - Stats
   - Termination condition

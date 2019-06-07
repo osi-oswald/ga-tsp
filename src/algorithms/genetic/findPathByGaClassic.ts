@@ -44,7 +44,7 @@ export function findPathByGaClassic<T extends Point>(args: {
 
       // Mutation
       if (Math.random() < args.mutationRate) {
-        candidate = addFitness(mutateSwap1(candidate, args.mutationRate));
+        candidate = addFitness(mutateSwap1(candidate));
       }
 
       newPopulation.push(candidate);
