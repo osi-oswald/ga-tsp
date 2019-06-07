@@ -1,5 +1,9 @@
-export function randomInt(maxExclusive: number) {
+export function randomExclusive(maxExclusive: number) {
   return Math.floor(Math.random() * maxExclusive);
+}
+
+export function randomInclusive(minInclusive: number, maxInclusive: number) {
+  return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
 }
 
 // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array

@@ -1,12 +1,15 @@
 ### todo
 
 - GA classic
+  - Selection
+  - Mutation -[x] Crossover
+  - Inputs
+  - Stats
+  - Termination condition
 - GA self
 - paint path over svg?
 
 ### low prio
-
-- make last point iteration prettier
 
 ### done
 
