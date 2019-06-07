@@ -1,7 +1,5 @@
 import { action, computed, observable } from 'mobx';
 
-export const scale = 1000;
-
 export let cityId = 1;
 
 export interface Point {
@@ -16,18 +14,17 @@ export interface City extends Point {
 export function cityByRandom(): City {
   return {
     id: cityId++,
-    x: Math.random() * scale,
-    y: Math.random() * scale
+    x: Math.random(),
+    y: Math.random()
   };
 }
 
 export function cityByAngle(degree: number): City {
   const in2Pi = (2 * Math.PI * degree) / 360;
-  const halfScale = scale / 2;
   return {
     id: cityId++,
-    x: Math.cos(in2Pi) * halfScale + halfScale,
-    y: Math.sin(in2Pi) * halfScale + halfScale
+    x: Math.cos(in2Pi) * 0.5 + 0.5,
+    y: Math.sin(in2Pi) * 0.5 + 0.5
   };
 }
 
@@ -95,7 +92,6 @@ export function citiesInCircle(nrOfCities: number) {
 }
 
 export class RootState {
-  readonly scale: number = scale;
   @observable cities: City[] = [];
   @observable paths: City[] = [];
   @observable pathsByNearestNeighbour: City[] = [];
