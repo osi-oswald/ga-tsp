@@ -58,7 +58,7 @@ const App = observer(({ state }: { state: RootState }) => (
               find
             </Button>
           </Col>
-          <Col className="my-auto">Length: {state.pathLengthByNearestNeighbour || '?'}</Col>
+          <Col className="my-auto">Length: {state.pathLengthByNearestNeighbour.toFixed(1)}</Col>
         </Row>
       </div>
     </div>
