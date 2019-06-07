@@ -11,6 +11,7 @@ export class RootState {
   @observable pathByNearestNeighbour: City[] = [];
   @observable pathByRandom: City[] = [];
   @observable pathByGaClassic: City[] = [];
+  @observable generationsOfGaClassic: number = 0;
   @observable nrOfCities: number = 10;
   @observable generatorChoice: any;
 
@@ -25,6 +26,7 @@ export class RootState {
     this.pathByNearestNeighbour = [];
     this.pathByRandom = [];
     this.pathByGaClassic = [];
+    this.generationsOfGaClassic = 0;
   }
 
   @action
@@ -58,7 +60,7 @@ export class RootState {
 
   @action
   findPathByGaClassic() {
-    this.path = findPathByGaClassic({
+    const result = findPathByGaClassic({
       cities: this.cities,
       populationSize: 1000,
       crossoverRate: 0.3,
@@ -66,7 +68,9 @@ export class RootState {
       elitismRate: 0.05,
       maxStaleGenerations: 10
     });
+    this.path = result.path;
     this.pathByGaClassic = this.path;
+    this.generationsOfGaClassic = result.generations;
   }
 
   @computed

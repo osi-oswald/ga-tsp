@@ -4,7 +4,11 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 
 export const FindPathByGaClassicControl = observer<{
-  state: { findPathByGaClassic: Function; pathLengthByGaClassic: number };
+  state: {
+    findPathByGaClassic: Function;
+    pathLengthByGaClassic: number;
+    generationsOfGaClassic: number;
+  };
 }>(({ state }) => (
   <div className="my-4">
     <h6>Path by GA classic</h6>
@@ -14,7 +18,10 @@ export const FindPathByGaClassicControl = observer<{
           find
         </Button>
       </Col>
-      <Col className="my-auto">Length: {state.pathLengthByGaClassic.toFixed(1)}</Col>
+      <Col className="my-auto">
+        <div>Length: {state.pathLengthByGaClassic.toFixed(1)}</div>
+        <div>G: {state.generationsOfGaClassic}</div>
+      </Col>
     </Row>
   </div>
 ));

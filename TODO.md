@@ -5,9 +5,9 @@
     - ✔ Normalize
   - ✔ Mutation
   - ✔ Crossover
-  - Termination condition
-  - Inputs
+  - ✔ Termination condition
   - Stats
+  - Inputs
 - GA self
 - paint path over svg?
 

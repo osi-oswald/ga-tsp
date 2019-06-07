@@ -16,13 +16,11 @@ export function pickRoulette<T>(
   }
 
   if (exclude) {
-    let index = binarySearchAsc(population, exclude, c => c[fitnessSym]);
-    while (index < population.length && population[index][fitnessSym] === exclude[fitnessSym]) {
-      if (population[index] === exclude) {
+    population.forEach(c => {
+      if (c === exclude) {
         populationFitness -= exclude[fitnessSym];
       }
-      index++;
-    }
+    });
   }
 
   let accumulator = 0;
