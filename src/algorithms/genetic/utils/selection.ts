@@ -8,20 +8,18 @@ window.fit = fitnessSym;
 
 export function pickRoulette<T>(
   population: Chromosome<T>[],
-  populationFitness: number,
   exclude?: Chromosome<T>
 ): Chromosome<T> {
   if (!population.length) {
     throw new Error('pickRoulette: population size must be > 0');
   }
 
-  if (exclude) {
-    population.forEach(c => {
-      if (c === exclude) {
-        populationFitness -= exclude[fitnessSym];
-      }
-    });
-  }
+  let populationFitness = 0;
+  population.forEach(candidate => {
+    if (candidate !== exclude) {
+      populationFitness += candidate[fitnessSym];
+    }
+  });
 
   let accumulator = 0;
   const pick = Math.random();
