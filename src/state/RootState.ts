@@ -63,7 +63,8 @@ export class RootState {
       populationSize: 1000,
       crossoverRate: 0.3,
       mutationRate: 0.05,
-      elitismRate: 0.05
+      elitismRate: 0.05,
+      maxStaleGenerations: 10
     });
     this.pathByGaClassic = this.path;
   }

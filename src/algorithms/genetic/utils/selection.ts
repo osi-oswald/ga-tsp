@@ -1,6 +1,11 @@
 import { randomExclusive } from '../../common';
-import { Chromosome } from './index';
+import { Chromosome, binarySearchAsc } from './index';
 import { fitnessSym } from './fitness';
+
+// @ts-ignore
+window.binarySearchAsc = binarySearchAsc;
+// @ts-ignore
+window.fit = fitnessSym;
 
 export function pickRoulette<T>(
   population: Chromosome<T>[],
@@ -12,10 +17,10 @@ export function pickRoulette<T>(
   }
 
   if (exclude) {
-    if (population.length <= 1) {
-      throw new Error('pickRoulette with exclude: population size must be > 1');
+    let index = binarySearchAsc(population, exclude, c => c[fitnessSym]);
+    while (population[index++] === exclude) {
+      populationFitness -= exclude[fitnessSym];
     }
-    populationFitness -= exclude[fitnessSym];
   }
 
   let accumulator = 0;

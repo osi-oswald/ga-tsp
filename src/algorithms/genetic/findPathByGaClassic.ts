@@ -12,7 +12,21 @@ export function findPathByGaClassic<T extends Point>(args: {
   crossoverRate: number;
   mutationRate: number;
   elitismRate?: number;
+  maxGenerations?: number;
+  maxStaleGenerations?: number;
 }): T[] {
+  if (!args.cities.length || args.populationSize < 2) {
+    return args.cities;
+  }
+
+  if (!args.maxGenerations && !args.maxStaleGenerations) {
+    throw new Error(
+      'findPathByGaClassic: either maxGenerations or maxStaleGenerations must be set'
+    );
+  }
+  const maxGenerations = args.maxGenerations || Infinity;
+  const maxStaleGenerations = args.maxStaleGenerations || Infinity;
+
   // Initialize population
   let population: Chromosome<T>[] = [];
   let populationFitness = 0;
@@ -23,8 +37,10 @@ export function findPathByGaClassic<T extends Point>(args: {
   }
   population.sort(fitnessAsc);
 
+  let bestFitness = population[0][fitnessSym];
+  let staleCount = 0;
   let generationCount = 0;
-  while (generationCount < 10) {
+  while (generationCount <= maxGenerations && staleCount <= maxStaleGenerations) {
     const newPopulation: Chromosome<T>[] = [];
     let newPopulationFitness = 0;
 
@@ -61,6 +77,13 @@ export function findPathByGaClassic<T extends Point>(args: {
     population = newPopulation;
     population.sort(fitnessAsc);
     populationFitness = newPopulationFitness;
+
+    if (population[0][fitnessSym] > bestFitness) {
+      bestFitness = population[0][fitnessSym];
+      staleCount = 0;
+    } else {
+      staleCount++;
+    }
   }
 
   return population[0];

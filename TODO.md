@@ -2,6 +2,7 @@
 
 - GA classic
   - ✔ Selection
+    - Normalize
   - ✔ Mutation
   - ✔ Crossover
   - Termination condition
