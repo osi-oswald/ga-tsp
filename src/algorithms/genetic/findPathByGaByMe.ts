@@ -40,7 +40,7 @@ export function findPathByGaByMe<T extends Point>(args: {
     while (populationPool.length < args.populationSize) {
       // Candidate Selection
       let candidate = pickRoulette(population);
-      let mate = pickRandom(population);
+      let mate = pickRandom(population, candidate);
 
       // Candidate Crossover
       const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
