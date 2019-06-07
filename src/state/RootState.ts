@@ -1,14 +1,16 @@
 import { action, computed, observable } from 'mobx';
 import { pathLength } from '../algorithms/common/points';
-import { generateCitiesByRandom, generateCitiesInCircle, City } from '../algorithms/common/cities';
+import { City, generateCitiesByRandom, generateCitiesInCircle } from '../algorithms/common/cities';
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
 import { shuffle } from '../algorithms/common';
+import { findPathByGaClassic } from '../algorithms/genetic/findPathByGaClassic';
 
 export class RootState {
   @observable cities: City[] = [];
   @observable path: City[] = [];
   @observable pathByNearestNeighbour: City[] = [];
   @observable pathByRandom: City[] = [];
+  @observable pathByGaClassic: City[] = [];
   @observable nrOfCities: number = 10;
   @observable generatorChoice: any;
 
@@ -22,6 +24,7 @@ export class RootState {
     this.path = [];
     this.pathByNearestNeighbour = [];
     this.pathByRandom = [];
+    this.pathByGaClassic = [];
   }
 
   @action
@@ -53,6 +56,18 @@ export class RootState {
     this.pathByRandom = this.path;
   }
 
+  @action
+  findPathByGaClassic() {
+    this.path = findPathByGaClassic({
+      cities: this.cities,
+      populationSize: 1000,
+      crossoverRate: 0.3,
+      mutationRate: 0.05,
+      elitismRate: 0.05
+    });
+    this.pathByGaClassic = this.path;
+  }
+
   @computed
   get pathLengthByNearestNeighbour() {
     return pathLength(this.pathByNearestNeighbour);
@@ -61,5 +76,10 @@ export class RootState {
   @computed
   get pathLengthByRandom() {
     return pathLength(this.pathByRandom);
+  }
+
+  @computed
+  get pathLengthByGaClassic() {
+    return pathLength(this.pathByGaClassic);
   }
 }

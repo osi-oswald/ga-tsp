@@ -12,7 +12,7 @@ export function findPathByGaClassic<T extends Point>(args: {
   crossoverRate: number;
   mutationRate: number;
   elitismRate?: number;
-}): Point[] {
+}): T[] {
   // Initialize population
   let population: Chromosome<T>[] = [];
   for (let i = 0; i < args.populationSize; i++) {
