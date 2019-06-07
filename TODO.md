@@ -2,7 +2,7 @@
 
 - GA classic
 - GA self
-- paint path over svg
+- paint path over svg?
 
 ### low prio
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { City } from '../State/utils/cities';
 
-export const CitiesPane = observer(({ cities, path }: { cities: City[]; path: City[] }) => (
+export const CitiesCanvas = observer<{ cities: City[]; path: City[] }>(({ cities, path }) => (
   <svg
     viewBox={`-0.05 -0.05 1.1 1.1`}
     preserveAspectRatio="xMidYMid"
