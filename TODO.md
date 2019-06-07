@@ -6,7 +6,7 @@
   - ✔ Mutation
   - ✔ Crossover
   - ✔ Termination condition
-  - Stats
+  - ✔ Stats
   - Inputs
 - GA self
 - paint path over svg?

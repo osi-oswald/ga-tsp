@@ -72,14 +72,14 @@ export function findPathByGaClassic<T extends Point>(args: {
 
       newPopulation.push(candidate);
       newPopulationFitness += candidate[fitnessSym];
-      generations++;
     }
 
     population = newPopulation;
     population.sort(fitnessAsc);
     populationFitness = newPopulationFitness;
 
-    if (population[0][fitnessSym] > bestFitness) {
+    generations++;
+    if (population[0][fitnessSym] < bestFitness) {
       bestFitness = population[0][fitnessSym];
       staleGenerations = 0;
     } else {

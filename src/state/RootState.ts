@@ -12,7 +12,7 @@ export class RootState {
   @observable pathByRandom: City[] = [];
   @observable pathByGaClassic: City[] = [];
   @observable generationsOfGaClassic: number = 0;
-  @observable nrOfCities: number = 10;
+  @observable nrOfCities: number = 15;
   @observable generatorChoice: any;
 
   constructor() {
@@ -66,7 +66,7 @@ export class RootState {
       crossoverRate: 0.3,
       mutationRate: 0.05,
       elitismRate: 0.05,
-      maxStaleGenerations: 10
+      maxStaleGenerations: 20
     });
     this.path = result.path;
     this.pathByGaClassic = this.path;
