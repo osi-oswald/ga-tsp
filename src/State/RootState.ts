@@ -4,10 +4,13 @@ export const scale = 1000;
 
 export let cityId = 1;
 
-export interface City {
-  id: number;
+export interface Point {
   x: number;
   y: number;
+}
+
+export interface City extends Point {
+  id: number;
 }
 
 export function cityByRandom(): City {
@@ -36,26 +39,26 @@ export function citiesByRandom(nrOfCities: number) {
   return cities;
 }
 
-export function distance(c1: City, c2: City) {
-  return Math.sqrt((c1.x - c2.x) ** 2 + (c1.y - c2.y) ** 2);
+export function distance(p1: Point, p2: Point) {
+  return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
 }
 
-export function pathLength(cities: City[]) {
+export function pathLength(paths: Point[]) {
   return Math.round(
-    cities.reduce((sum, city, i) => {
-      const iNext = i === cities.length - 1 ? 0 : i + 1;
-      return sum + distance(city, cities[iNext]);
+    paths.reduce((sum, city, i) => {
+      const iNext = i === paths.length - 1 ? 0 : i + 1;
+      return sum + distance(city, paths[iNext]);
     }, 0)
   );
 }
 
-export function findPathsByNearestNeighbour(cities: City[]): City[] {
-  const path: City[] = [];
+export function findPathsByNearestNeighbour<T extends Point>(points: T[]): T[] {
+  const path: T[] = [];
 
-  if (cities.length) {
-    const unvisited = new Set(cities);
+  if (points.length) {
+    const unvisited = new Set(points);
 
-    let current = cities[0];
+    let current = points[0];
     unvisited.delete(current);
     path.push(current);
 

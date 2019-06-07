@@ -7,3 +7,7 @@
 -[ ] paint path over svg
 
 -[ ] make utils.ts
+
+-[x] point interface
+
+-[ ] rework scale
