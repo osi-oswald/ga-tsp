@@ -30,8 +30,9 @@ export function fitness(path: Point[]): number {
 export const fitnessSym = Symbol('fitness');
 export type Chromosome<T = object> = T[] & { [fitnessSym]: number };
 
-export function addFitness<T>(candidate: T[]): Chromosome<T> {
-  return null as any;
+export function addFitness<T extends Point>(candidate: T[]): Chromosome<T> {
+  candidate[fitnessSym] = fitness(candidate);
+  return candidate as Chromosome<T>;
 }
 
 export const fitnessDesc = (a: Chromosome, b: Chromosome) => b[fitnessSym] - a[fitnessSym];
