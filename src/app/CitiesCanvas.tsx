@@ -16,18 +16,16 @@ export const CitiesCanvas = observer<{ cities: City[]; path: City[] }>(({ cities
     {path.map((city, i) => {
       const nextCity = path[(i + 1) % path.length];
       return (
-        <>
-          <line
-            key={city.id}
-            x1={city.x}
-            y1={city.y}
-            x2={nextCity.x}
-            y2={nextCity.y}
-            strokeWidth="0.003"
-            stroke="lime"
-            markerEnd="url(#arrow)"
-          />
-        </>
+        <line
+          key={city.id}
+          x1={city.x}
+          y1={city.y}
+          x2={nextCity.x}
+          y2={nextCity.y}
+          strokeWidth="0.003"
+          stroke="lime"
+          markerEnd="url(#arrow)"
+        />
       );
     })}
     {cities.map(city => (

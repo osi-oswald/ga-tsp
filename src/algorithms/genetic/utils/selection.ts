@@ -18,13 +18,12 @@ export function pickRandom<T>(population: Chromosome<T>[], exclude?: Chromosome<
 
 export function pickRoulette<T>(
   population: Chromosome<T>[],
+  populationFitness: number,
   exclude?: Chromosome<T>
 ): Chromosome<T> {
   if (!population.length) {
     throw new Error('pickRoulette: population size must be > 0');
   }
-
-  let populationFitness = population.reduce((sum, c) => sum + c[fitnessSym], 0);
 
   let accumulator = 0;
   let pick: Chromosome<T>;
@@ -42,11 +41,18 @@ export function pickRoulette<T>(
   }
 
   if (pick === exclude) {
-    population = population.filter(c => c !== exclude);
+    population = population.filter(c => {
+      if (c === exclude) {
+        populationFitness -= exclude[fitnessSym];
+        return false;
+      }
+      return true;
+    });
+
     if (population.length === 0) {
       console.warn('pickRandom: all candidates matched the exclude candidate');
     } else {
-      pick = pickRoulette(population);
+      pick = pickRoulette(population, populationFitness);
     }
   }
 

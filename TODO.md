@@ -1,9 +1,5 @@
 ### todo
 
-- Improve roulette function
-  - most necessary info stays the same (must not be recomputed)
-  - use binary search to find pick
-  - ✔ try eliminate exclude differently
 - GA Input parameters
   - Also generic controls
 - Try eliminate population parameter
@@ -15,6 +11,11 @@
   - a repair function stitches it back together
   - (this might be the better approach instead of finding a "clever" mutation operator)
 - Use webworkers?
+- Improve roulette function?
+  - store accumulated fitness
+  - use binary search to find pick
+  - ✔ store population fitness
+  - ✔ try eliminate exclude differently
 
 ### low prio
 
