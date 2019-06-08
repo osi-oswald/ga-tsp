@@ -3,7 +3,7 @@ import { shuffle } from '../common';
 import { Chromosome } from './utils';
 import { pickRoulette } from './utils/selection';
 import { crossoverOrder1, reverse } from './utils/crossover';
-import { mutateSwapX } from './utils/mutation';
+import { mutateDeleteAndRepair } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
 export function findPathByGaByMe<T extends Point>(args: {
@@ -52,7 +52,7 @@ export function findPathByGaByMe<T extends Point>(args: {
 
       // Candidate Mutation
       const mutationRate = Math.random();
-      candidate = addFitness(mutateSwapX(candidate, mutationRate));
+      candidate = addFitness(mutateDeleteAndRepair(candidate, mutationRate));
 
       populationPool.push(candidate);
     }

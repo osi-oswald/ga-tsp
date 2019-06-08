@@ -1,5 +1,5 @@
 import { Chromosome } from './index';
-import { randomExclusive } from '../../common';
+import { randomExclusive, shuffle } from '../../common';
 
 export function swapWithNext<T>(target: T[], index: number) {
   const temp = target[index];
@@ -36,6 +36,35 @@ export function mutateSwapX<T>(candidate: Chromosome<T>, mutationRate: number): 
     if (Math.random() < rate) {
       swapWithNext(clone, i);
     }
+  }
+
+  return clone;
+}
+
+export function mutateDeleteAndRepair<T>(candidate: Chromosome<T>, mutationRate: number) {
+  const rate = mutationRateByGene(candidate.length, mutationRate);
+  const clone = [...candidate];
+
+  // delete
+  const deleted: T[] = [];
+  const deletedIndexes: number[] = [];
+  for (let i = 0; i < clone.length; i++) {
+    if (Math.random() < rate) {
+      deleted.push(clone[i]);
+      deletedIndexes.push(i);
+      clone[i] = undefined!;
+    }
+  }
+
+  if (deleted.length === 1) {
+    // deleting one path has no effect
+    return candidate;
+  }
+
+  // repair
+  shuffle(deleted, true);
+  for (let i = 0; i < deleted.length; i++) {
+    clone[deletedIndexes[i]] = deleted[i];
   }
 
   return clone;

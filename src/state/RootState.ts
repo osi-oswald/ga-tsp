@@ -19,7 +19,7 @@ export class RootState {
   @observable generationsOfGaByMe: number = 0;
 
   constructor() {
-    this.generateCitiesInCircle();
+    this.generateCitiesByRandom();
   }
 
   @action
