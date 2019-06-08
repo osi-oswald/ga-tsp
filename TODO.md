@@ -1,12 +1,13 @@
 ### todo
 
-- GA self
+- GA Input parameters
 - paint path over svg?
 
 ### low prio
 
 ### done
 
+- ✔ GA self
 - ✔ GA by book
   - ✔ Selection
     - ✔ Normalize
@@ -14,7 +15,6 @@
   - ✔ Crossover
   - ✔ Termination condition
   - ✔ Stats
-  - Inputs
 - ✔ on enter -> generate cities
 - ✔ proper blocks
 - ✔ reset method
