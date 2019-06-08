@@ -57,6 +57,11 @@ export function mutateDeleteAndRepair<T>(candidate: Chromosome<T>, mutationRate:
     }
   }
 
+  if (deleted.length < 2) {
+    // no mutation / no need to repair
+    return candidate;
+  }
+
   // repair
   shuffle(deleted, true);
   for (let i = 0; i < deleted.length; i++) {
