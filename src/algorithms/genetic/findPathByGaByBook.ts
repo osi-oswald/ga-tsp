@@ -28,31 +28,35 @@ export function findPathByGaByBook<T extends Point>(args: {
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
   // Initialize population
+  let populationFitness = 0;
   let population: Chromosome<T>[] = [];
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
+    populationFitness += candidate[fitnessSym];
   }
   population.sort(fitnessAsc);
 
   let staleGenerations = 0;
   let bestFitness = population[0][fitnessSym];
   while (generations <= maxGenerations && staleGenerations <= maxStaleGenerations) {
+    let newPopulationFitness = 0;
     const newPopulation: Chromosome<T>[] = [];
 
     // Save elites
     if (args.elitismRate) {
       const elites = population.slice(0, args.populationSize * args.elitismRate);
       newPopulation.push(...elites);
+      newPopulationFitness += elites.reduce((sum, e) => sum + e[fitnessSym], 0);
     }
 
     while (newPopulation.length < args.populationSize) {
       // Selection
-      let candidate = pickRoulette(population);
+      let candidate = pickRoulette(population, populationFitness);
 
       // Crossover
       if (Math.random() < args.crossoverRate) {
-        const mate = pickRoulette(population, candidate);
+        const mate = pickRoulette(population, populationFitness, candidate);
         const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
         candidate = children.sort(fitnessAsc)[0];
       }
@@ -63,10 +67,12 @@ export function findPathByGaByBook<T extends Point>(args: {
       }
 
       newPopulation.push(candidate);
+      newPopulationFitness += candidate[fitnessSym];
     }
 
     population = newPopulation;
     population.sort(fitnessAsc);
+    populationFitness = newPopulationFitness;
 
     generations++;
     if (population[0][fitnessSym] < bestFitness) {
