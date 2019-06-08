@@ -1,5 +1,9 @@
 ### todo
 
+- Try eliminate population parameter
+  - increase population size when stuck
+- Try separate crossover & mutation
+  - only do crossover until stuck, then mutate
 - GA Input parameters
 
 ### low prio
