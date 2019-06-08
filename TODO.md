@@ -1,7 +1,6 @@
 ### todo
 
 - GA Input parameters
-- paint path over svg?
 
 ### low prio
 

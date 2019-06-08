@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, toJS } from 'mobx';
 import { pathLength } from '../algorithms/common/points';
 import { City, generateCitiesByRandom, generateCitiesInCircle } from '../algorithms/common/cities';
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
@@ -66,7 +66,7 @@ export class RootState {
   @action
   findPathByGaByBook() {
     const result = findPathByGaByBook({
-      cities: this.cities,
+      cities: toJS(this.cities),
       populationSize: 1000,
       crossoverRate: 0.3,
       mutationRate: 0.05,
@@ -81,7 +81,7 @@ export class RootState {
   @action
   findPathByGaByMe() {
     const result = findPathByGaByMe({
-      cities: this.cities,
+      cities: toJS(this.cities),
       populationSize: 1000,
       maxStaleGenerations: 20
     });
