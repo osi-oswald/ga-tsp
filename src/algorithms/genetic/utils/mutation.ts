@@ -43,22 +43,18 @@ export function mutateSwapX<T>(candidate: Chromosome<T>, mutationRate: number): 
 
 export function mutateDeleteAndRepair<T>(candidate: Chromosome<T>, mutationRate: number) {
   const rate = mutationRateByGene(candidate.length, mutationRate);
-  const clone = [...candidate];
-
-  // delete
+  const clone: T[] = [];
   const deleted: T[] = [];
   const deletedIndexes: number[] = [];
-  for (let i = 0; i < clone.length; i++) {
-    if (Math.random() < rate) {
-      deleted.push(clone[i]);
-      deletedIndexes.push(i);
-      clone[i] = undefined!;
-    }
-  }
 
-  if (deleted.length === 1) {
-    // deleting one path has no effect
-    return candidate;
+  // delete
+  for (let i = 0; i < candidate.length; i++) {
+    if (Math.random() < rate) {
+      deletedIndexes.push(i);
+      deleted.push(candidate[i]);
+    } else {
+      clone[i] = candidate[i];
+    }
   }
 
   // repair
