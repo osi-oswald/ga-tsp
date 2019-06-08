@@ -1,6 +1,5 @@
 ### todo
 
-- Paint start point and direction
 - Improve roulette function
   - most necessary info stays the same (must not be recomputed)
   - use binary search to find pick
@@ -20,6 +19,7 @@
 
 ### done
 
+- ✔ Paint start point and direction
 - ✔ Reverse crossover
 - ✔ GA self
 - ✔ GA by book

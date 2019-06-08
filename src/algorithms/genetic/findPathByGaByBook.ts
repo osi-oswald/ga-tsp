@@ -2,7 +2,7 @@ import { Point } from '../common/points';
 import { shuffle } from '../common';
 import { Chromosome } from './utils';
 import { pickRoulette } from './utils/selection';
-import { crossoverOrder1 } from './utils/crossover';
+import { crossoverOrder1, reverse } from './utils/crossover';
 import { mutateSwap1 } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
@@ -53,7 +53,9 @@ export function findPathByGaByBook<T extends Point>(args: {
       // Crossover
       if (Math.random() < args.crossoverRate) {
         const mate = pickRoulette(population, candidate);
-        const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
+        const children = crossoverOrder1(candidate, mate)
+          .concat(crossoverOrder1(candidate, reverse(mate)))
+          .map(c => addFitness(c));
         candidate = children.sort(fitnessAsc)[0];
       }
 
