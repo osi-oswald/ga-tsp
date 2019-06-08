@@ -25,12 +25,10 @@ export function findPathByGaByMe<T extends Point>(args: {
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
   // Initialize population
-  let populationFitness = 0;
   let population: Chromosome<T>[] = [];
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
-    populationFitness += candidate[fitnessSym];
   }
   population.sort(fitnessAsc);
 
@@ -41,8 +39,8 @@ export function findPathByGaByMe<T extends Point>(args: {
 
     while (populationPool.length < args.populationSize) {
       // Candidate Selection
-      let candidate = pickRoulette(population, populationFitness);
-      let mate = pickRoulette(population, populationFitness, candidate);
+      let candidate = pickRoulette(population);
+      let mate = pickRoulette(population, candidate);
 
       // Candidate Crossover
       const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
@@ -57,7 +55,6 @@ export function findPathByGaByMe<T extends Point>(args: {
     populationPool.sort(fitnessAsc);
 
     // Population Selection
-    let newPopulationFitness = 0;
     const newPopulation: Chromosome<T>[] = [];
     const iter = population[Symbol.iterator]();
     const poolIter = populationPool[Symbol.iterator]();
@@ -67,18 +64,15 @@ export function findPathByGaByMe<T extends Point>(args: {
     while (newPopulation.length < args.populationSize) {
       if (iterValue[fitnessSym] < poolIterValue[fitnessSym]) {
         newPopulation.push(iterValue);
-        newPopulationFitness += iterValue[fitnessSym];
         iterValue = iter.next().value;
       } else {
         newPopulation.push(poolIterValue);
-        newPopulationFitness += poolIterValue[fitnessSym];
         poolIterValue = poolIter.next().value;
       }
     }
 
     population = newPopulation;
     population.sort(fitnessAsc);
-    populationFitness = newPopulationFitness;
 
     generations++;
     if (population[0][fitnessSym] < bestFitness) {

@@ -1,4 +1,4 @@
-import { binarySearchAsc, Chromosome } from './index';
+import { Chromosome } from './index';
 import { fitnessSym } from './fitness';
 import { randomExclusive } from '../../common';
 
@@ -18,24 +18,18 @@ export function pickRandom<T>(population: Chromosome<T>[], exclude?: Chromosome<
 
 export function pickRoulette<T>(
   population: Chromosome<T>[],
-  populationFitness: number,
   exclude?: Chromosome<T>
 ): Chromosome<T> {
   if (!population.length) {
     throw new Error('pickRoulette: population size must be > 0');
   }
 
-  if (exclude) {
-    let index = binarySearchAsc(population, exclude, c => c[fitnessSym]);
-    if (index > -1) {
-      while (index < population.length && population[index][fitnessSym] === exclude[fitnessSym]) {
-        if (population[index] === exclude) {
-          populationFitness -= exclude[fitnessSym];
-        }
-        index++;
-      }
+  let populationFitness = 0;
+  population.forEach(candidate => {
+    if (candidate !== exclude) {
+      populationFitness += candidate[fitnessSym];
     }
-  }
+  });
 
   if (populationFitness === 0) {
     console.warn('pickRoulette: all candidates matched the exclude candidate');
