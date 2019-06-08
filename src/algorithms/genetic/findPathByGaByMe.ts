@@ -2,7 +2,7 @@ import { Point } from '../common/points';
 import { shuffle } from '../common';
 import { Chromosome } from './utils';
 import { pickRoulette } from './utils/selection';
-import { crossoverOrder1 } from './utils/crossover';
+import { crossoverOrder1, reverse } from './utils/crossover';
 import { mutateSwapX } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
 
@@ -43,7 +43,9 @@ export function findPathByGaByMe<T extends Point>(args: {
       let mate = pickRoulette(population, candidate);
 
       // Candidate Crossover
-      const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
+      const children = crossoverOrder1(candidate, mate)
+        .concat(crossoverOrder1(candidate, reverse(mate)))
+        .map(c => addFitness(c));
       candidate = children.sort(fitnessAsc)[0];
 
       // Candidate Mutation

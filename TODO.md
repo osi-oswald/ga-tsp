@@ -1,13 +1,15 @@
 ### todo
 
+- Paint start point and direction
+- Improve roulette function
+  - most necessary info stays the same (must not be recomputed)
+  - use binary search to find pick
 - GA Input parameters
+  - Also generic controls
 - Try eliminate population parameter
   - increase population size when stuck
 - Try separate crossover & mutation
   - only do crossover until stuck, then mutate
-- Improve roulette function
-  - most necessary info stays the same (must not be recomputed)
-  - use binary search to find pick
 - Try kill & repair strategy?
   - mutation deletes genes, making the chromosome invalid
   - a repair function stitches it back together
@@ -18,6 +20,7 @@
 
 ### done
 
+- ✔ Reverse crossover
 - ✔ GA self
 - ✔ GA by book
   - ✔ Selection

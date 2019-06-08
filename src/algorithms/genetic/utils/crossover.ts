@@ -1,7 +1,10 @@
 import { Chromosome } from './index';
 import { randomInclusive } from '../../common';
 
-export function crossoverOrder1<T>(parent1: Chromosome<T>, parent2: Chromosome<T>): [T[], T[]] {
+export function crossoverOrder1<T>(
+  parent1: Chromosome<T> | T[],
+  parent2: Chromosome<T> | T[]
+): [T[], T[]] {
   const length = parent1.length;
 
   if (length !== parent2.length) {
@@ -59,4 +62,8 @@ function fillMissing<T>(
       break;
     }
   }
+}
+
+export function reverse<T>(candiate: Chromosome<T>): T[] {
+  return candiate.slice(0).reverse();
 }
