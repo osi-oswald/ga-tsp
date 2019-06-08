@@ -19,7 +19,7 @@ export const FindPathByGaByMeControl = observer<{
         </Button>
       </Col>
       <Col className="my-auto">
-        <div>Length: {state.pathLengthByGaByMe.toFixed(1)}</div>
+        <div>Length: {state.pathLengthByGaByMe.toFixed(2)}</div>
         <div>G: {state.generationsOfGaByMe}</div>
       </Col>
     </Row>

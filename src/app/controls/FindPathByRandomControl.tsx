@@ -14,7 +14,7 @@ export const FindPathByRandomControl = observer<{
           find
         </Button>
       </Col>
-      <Col className="my-auto">Length: {state.pathLengthByRandom.toFixed(1)}</Col>
+      <Col className="my-auto">Length: {state.pathLengthByRandom.toFixed(2)}</Col>
     </Row>
   </div>
 ));

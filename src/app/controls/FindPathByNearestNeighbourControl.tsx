@@ -14,7 +14,7 @@ export const FindPathByNearestNeighbourControl = observer<{
           find
         </Button>
       </Col>
-      <Col className="my-auto">Length: {state.pathLengthByNearestNeighbour.toFixed(1)}</Col>
+      <Col className="my-auto">Length: {state.pathLengthByNearestNeighbour.toFixed(2)}</Col>
     </Row>
   </div>
 ));

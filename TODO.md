@@ -1,15 +1,15 @@
 ### todo
 
-- GA Input parameters
-  - Also generic controls
-- Try eliminate population parameter
-  - increase population size when stuck
-- Try separate crossover & mutation
-  - only do crossover until stuck, then mutate
 - Try kill & repair strategy?
   - mutation deletes genes, making the chromosome invalid
   - a repair function stitches it back together
   - (this might be the better approach instead of finding a "clever" mutation operator)
+- Try separate crossover & mutation
+  - only do crossover until stuck, then mutate
+- GA Input parameters
+  - Also generic controls
+- Try eliminate population parameter
+  - increase population size when stuck
 - Use webworkers?
 - Improve roulette function?
   - store accumulated fitness

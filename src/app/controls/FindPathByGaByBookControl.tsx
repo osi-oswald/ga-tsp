@@ -11,7 +11,7 @@ export const FindPathByGaByBookControl = observer<{
   };
 }>(({ state }) => (
   <div className="my-4">
-    <h6>Path by GA by book</h6>
+    <h6>Path by GA by the book</h6>
     <Row className="my-2">
       <Col>
         <Button className="w-100" onClick={() => state.findPathByGaByBook()}>
@@ -19,7 +19,7 @@ export const FindPathByGaByBookControl = observer<{
         </Button>
       </Col>
       <Col className="my-auto">
-        <div>Length: {state.pathLengthByGaByBook.toFixed(1)}</div>
+        <div>Length: {state.pathLengthByGaByBook.toFixed(2)}</div>
         <div>G: {state.generationsOfGaByBook}</div>
       </Col>
     </Row>
