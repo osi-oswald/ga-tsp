@@ -3,6 +3,7 @@
 - Improve roulette function
   - most necessary info stays the same (must not be recomputed)
   - use binary search to find pick
+  - ✔ try eliminate exclude differently
 - GA Input parameters
   - Also generic controls
 - Try eliminate population parameter
@@ -12,7 +13,7 @@
 - Try kill & repair strategy?
   - mutation deletes genes, making the chromosome invalid
   - a repair function stitches it back together
-  - (this might be the better approach in stead of finding a "clever" mutation operator)
+  - (this might be the better approach instead of finding a "clever" mutation operator)
 - Use webworkers?
 
 ### low prio

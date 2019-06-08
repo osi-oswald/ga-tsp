@@ -9,7 +9,7 @@ import { findPathByGaByMe } from '../algorithms/genetic/findPathByGaByMe';
 export class RootState {
   @observable cities: City[] = [];
   @observable generatorChoice: any;
-  @observable nrOfCities: number = 15;
+  @observable nrOfCities: number = 50;
   @observable path: City[] = [];
   @observable pathByNearestNeighbour: City[] = [];
   @observable pathByRandom: City[] = [];
