@@ -1,7 +1,7 @@
 import { Point } from '../common/points';
 import { shuffle } from '../common';
 import { Chromosome } from './utils';
-import { pickRandom, pickRoulette } from './utils/selection';
+import { pickRoulette } from './utils/selection';
 import { crossoverOrder1 } from './utils/crossover';
 import { mutateSwapX } from './utils/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
@@ -40,7 +40,7 @@ export function findPathByGaByMe<T extends Point>(args: {
     while (populationPool.length < args.populationSize) {
       // Candidate Selection
       let candidate = pickRoulette(population);
-      let mate = pickRandom(population, candidate);
+      let mate = pickRoulette(population, candidate);
 
       // Candidate Crossover
       const children = crossoverOrder1(candidate, mate).map(c => addFitness(c));
