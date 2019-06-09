@@ -3,18 +3,23 @@ import { randomExclusive } from '../../common';
 import { Chromosome } from './index';
 import { Population } from './Population';
 
-export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>) {
-  let pick = population[randomExclusive(population.length)];
-  if (pick === exclude) {
-    population = population.filter(c => c !== exclude);
-    if (population.length === 0) {
-      console.warn('pickRandom: all candidates matched the exclude candidate');
-    } else {
-      pick = pickRandom(population);
-    }
+function repick<T>(
+  population: Population<T>,
+  exclude: Chromosome<T>,
+  pickFn: (p: Population<T>) => Chromosome<T>
+): Chromosome<T> {
+  population = population.filter(c => c !== exclude);
+  if (population.length === 0) {
+    console.warn('repick: all candidates matched the exclude candidate');
+    return exclude;
+  } else {
+    return pickFn(population);
   }
+}
 
-  return pick;
+export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
+  let pick = population[randomExclusive(population.length)];
+  return pick === exclude ? repick(population, exclude!, pickRandom) : pick;
 }
 
 export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
@@ -37,15 +42,5 @@ export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<
     throw new Error('pickRoulette: this should never happen ;-)');
   }
 
-  // should be rare
-  if (pick === exclude) {
-    population = population.filter(c => c !== exclude);
-    if (population.length === 0) {
-      console.warn('pickRandom: all candidates matched the exclude candidate');
-    } else {
-      pick = pickRoulette(population);
-    }
-  }
-
-  return pick;
+  return pick === exclude ? repick(population, exclude!, pickRoulette) : pick;
 }
