@@ -1,5 +1,5 @@
 import { Chromosome } from './index';
-import { randomInclusive } from '../../common';
+import { memoizeByRef, randomInclusive } from '../../common';
 
 export function crossoverOrder1<T>(
   parent1: Chromosome<T> | T[],
@@ -64,6 +64,4 @@ function fillMissing<T>(
   }
 }
 
-export function reverse<T>(candiate: Chromosome<T>): T[] {
-  return candiate.slice(0).reverse();
-}
+export const reverse = memoizeByRef(<T>(candidate: Chromosome<T>) => candidate.slice(0).reverse());

@@ -2,8 +2,7 @@
 
 - cache path length computation
   - maybe add cache data to pints itself? (with weak maps)
-- Try separate crossover & mutation
-  - only do crossover until stuck, then mutate
+- animation of best population, length and generation
 - GA Input parameters
   - Also generic controls
 - Try eliminate population parameter

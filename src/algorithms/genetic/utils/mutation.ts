@@ -14,59 +14,42 @@ export function mutateSwap1<T>(candidate: Chromosome<T>): T[] {
     throw new Error('mutateSwap1: chromosome length must be > 1');
   }
 
-  const clone = [...candidate];
-  swapWithNext(clone, randomExclusive(length));
+  const mutated = [...candidate];
+  swapWithNext(mutated, randomExclusive(length));
 
-  return clone;
+  return mutated;
 }
 
-export function mutationRateByGene(chromosomeLength: number, mutationRateByChromosome: number) {
-  return 1 - (1 - mutationRateByChromosome) ** (1 / chromosomeLength);
-}
-
-export function mutateSwapX<T>(candidate: Chromosome<T>, mutationRate: number): T[] {
-  const length = candidate.length;
-  if (length < 2) {
-    throw new Error('mutateSwap1: chromosome length must be > 1');
-  }
-
-  const clone = [...candidate];
-  const rate = mutationRateByGene(candidate.length, mutationRate) / 2; // divided by 2 because swapping changes 2 genes
-  for (let i = 0; i < clone.length; i++) {
-    if (Math.random() < rate) {
-      swapWithNext(clone, i);
-    }
-  }
-
-  return clone;
+export function mutationRatePerGene(chromosomeLength: number, mutationRate: number) {
+  return 1 - (1 - mutationRate) ** (1 / chromosomeLength);
 }
 
 export function mutateDeleteAndRepair<T>(candidate: Chromosome<T>, mutationRate: number) {
-  const rate = mutationRateByGene(candidate.length, mutationRate);
-  const clone: T[] = [];
+  const rate = mutationRatePerGene(candidate.length, mutationRate);
+  const mutated: T[] = [];
   const deleted: T[] = [];
   const deletedIndexes: number[] = [];
 
-  // delete
+  // delete random genes
   for (let i = 0; i < candidate.length; i++) {
     if (Math.random() < rate) {
       deletedIndexes.push(i);
       deleted.push(candidate[i]);
     } else {
-      clone[i] = candidate[i];
+      mutated[i] = candidate[i];
     }
   }
 
   if (deleted.length < 2) {
-    // no mutation / no need to repair
+    // no mutation, therefore no need to repair
     return candidate;
   }
 
-  // repair
+  // repair deleted genes
   shuffle(deleted, true);
   for (let i = 0; i < deleted.length; i++) {
-    clone[deletedIndexes[i]] = deleted[i];
+    mutated[deletedIndexes[i]] = deleted[i];
   }
 
-  return clone;
+  return mutated;
 }

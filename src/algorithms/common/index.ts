@@ -7,8 +7,8 @@ export function randomInclusive(minInclusive: number, maxInclusive: number) {
 }
 
 // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-export function shuffle<T>(array: T[], mutate: boolean = false): T[] {
-  const shuffled = mutate ? array : [...array];
+export function shuffle<T>(array: T[], mutateArray: boolean = false): T[] {
+  const shuffled = mutateArray ? array : [...array];
 
   let currentIndex = array.length;
   let temporaryValue: T;
@@ -27,4 +27,16 @@ export function shuffle<T>(array: T[], mutate: boolean = false): T[] {
   }
 
   return shuffled;
+}
+
+export function memoizeByRef<T extends object, R>(func: (arg: T) => R): (arg: T) => R {
+  const cache = new WeakMap<T, R>();
+  return function(arg: T) {
+    let cached = cache.get(arg);
+    if (!cached) {
+      cached = func(arg);
+      cache.set(arg, cached);
+    }
+    return cached;
+  };
 }
