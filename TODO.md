@@ -1,10 +1,7 @@
 ### todo
 
-- animation of best population, length and generation
 - GA Input parameters
   - Also generic controls
-- Try eliminate population parameter
-  - increase population size when stuck
 - Use webworkers?
 - Improve roulette function?
   - store accumulated fitness
@@ -16,6 +13,7 @@
 
 ### done
 
+- ✔ animation of best population, length and generation
 - ✔ cache path length computation
   - maybe add cache data to pints itself? (with weak maps)
 - ✔ Try delete & repair strategy?
