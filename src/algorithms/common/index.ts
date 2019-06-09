@@ -29,13 +29,32 @@ export function shuffle<T>(array: T[], mutateArray: boolean = false): T[] {
   return shuffled;
 }
 
-export function memoizeByRef<T extends object, R>(func: (arg: T) => R): (arg: T) => R {
+export function memoizeByRef<R, T extends object>(func: (arg: T) => R): (arg: T) => R {
   const cache = new WeakMap<T, R>();
   return function(arg: T) {
     let cached = cache.get(arg);
     if (!cached) {
       cached = func(arg);
       cache.set(arg, cached);
+    }
+    return cached;
+  };
+}
+
+export function memoizeByRef2<R, T1 extends object, T2 extends object>(
+  func: (arg1: T1, arg2: T2) => R
+): (arg1: T1, arg2: T2) => R {
+  const cache1 = new WeakMap<T1, WeakMap<T2, R>>();
+  return function(arg1: T1, arg2: T2) {
+    let cache2 = cache1.get(arg1);
+    if (!cache2) {
+      cache2 = new WeakMap<T2, R>();
+      cache1.set(arg1, cache2);
+    }
+    let cached = cache2.get(arg2);
+    if (!cached) {
+      cached = func(arg1, arg2);
+      cache2.set(arg2, cached);
     }
     return cached;
   };
