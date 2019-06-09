@@ -5,3 +5,5 @@ export function randomExclusive(maxExclusive: number) {
 export function randomInclusive(minInclusive: number, maxInclusive: number) {
   return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
 }
+
+export const noop: (...args: any[]) => any = () => undefined;

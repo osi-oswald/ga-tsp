@@ -65,29 +65,33 @@ export class RootState {
 
   @action
   findPathByGaByBook() {
-    const result = findPathByGaByBook({
+    findPathByGaByBook({
       cities: toJS(this.cities),
       populationSize: 1000,
       crossoverRate: 0.3,
       mutationRate: 0.05,
       elitismRate: 0.05,
-      maxStaleGenerations: 20
+      maxStaleGenerations: 20,
+      reporting: report => {
+        this.path = report.path;
+        this.pathByGaByBook = report.path;
+        this.generationsOfGaByBook = report.generations;
+      }
     });
-    this.path = result.path;
-    this.pathByGaByBook = this.path;
-    this.generationsOfGaByBook = result.generations;
   }
 
   @action
   findPathByGaByMe() {
-    const result = findPathByGaByMe({
+    findPathByGaByMe({
       cities: toJS(this.cities),
       populationSize: 1000,
-      maxStaleGenerations: 20
+      maxStaleGenerations: 20,
+      reporting: report => {
+        this.path = report.path;
+        this.pathByGaByMe = report.path;
+        this.generationsOfGaByMe = report.generations;
+      }
     });
-    this.path = result.path;
-    this.pathByGaByMe = this.path;
-    this.generationsOfGaByMe = result.generations;
   }
 
   @computed

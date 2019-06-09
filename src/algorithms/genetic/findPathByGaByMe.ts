@@ -11,11 +11,12 @@ export function findPathByGaByMe<T extends Point>(args: {
   populationSize: number;
   maxGenerations?: number;
   maxStaleGenerations?: number;
-}): { path: T[]; generations: number } {
+  reporting: (report: { path: T[]; generations: number; isTerminated: boolean }) => void;
+}): void {
   let generations = 0;
 
   if (!args.cities.length || args.populationSize < 2) {
-    return { path: args.cities, generations };
+    return;
   }
 
   if (!args.maxGenerations && !args.maxStaleGenerations) {
@@ -32,9 +33,11 @@ export function findPathByGaByMe<T extends Point>(args: {
   }
   population.sortByFitnessAsc();
 
+  let isTerminated = false;
   let staleGenerations = 0;
   let bestFitness = population.elite[fitnessSym];
-  while (generations <= maxGenerations && staleGenerations <= maxStaleGenerations) {
+
+  function evolve() {
     const populationPool = new Population<T>();
 
     while (populationPool.length < args.populationSize) {
@@ -77,15 +80,22 @@ export function findPathByGaByMe<T extends Point>(args: {
 
     population = newPopulation;
     population.sortByFitnessAsc();
-
     generations++;
+
     if (population.elite[fitnessSym] < bestFitness) {
       bestFitness = population.elite[fitnessSym];
       staleGenerations = 0;
     } else {
       staleGenerations++;
     }
+
+    if (generations > maxGenerations || staleGenerations > maxStaleGenerations) {
+      isTerminated = true;
+      clearInterval(evolution);
+    }
+
+    args.reporting({ path: population.elite, generations, isTerminated });
   }
 
-  return { path: population.elite, generations };
+  const evolution = setInterval(evolve);
 }
