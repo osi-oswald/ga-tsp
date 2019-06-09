@@ -10,10 +10,22 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
     <h6>Path by GA by the book</h6>
 
     <Row className="my-2">
+      <Col className="my-auto">
+        <div>Length: {state.pathLengthByGaByBook.toFixed(2)}</div>
+        <div className="small">Generation: {state.generationsOfGaByBook}</div>
+      </Col>
+      <Col className="my-auto">
+        <Button className="w-100" onClick={() => state.findPathByGaByBook()}>
+          find
+        </Button>
+      </Col>
+    </Row>
+
+    <Row className="my-2">
       <Col className="my-auto">Population size</Col>
       <Col>
         <FormControl
-          value={state.populationOfGaByBook ? state.populationOfGaByBook.toString() : ''}
+          value={state.populationOfGaByBook != null ? state.populationOfGaByBook.toString() : ''}
           onChange={(e: any) => (state.populationOfGaByBook = +e.target.value)}
           type="number"
         />
@@ -24,7 +36,9 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
       <Col className="my-auto">Crossover rate</Col>
       <Col>
         <FormControl
-          value={state.crossoverRateOfGaByBook ? state.crossoverRateOfGaByBook.toString() : ''}
+          value={
+            state.crossoverRateOfGaByBook != null ? state.crossoverRateOfGaByBook.toString() : ''
+          }
           onChange={(e: any) => (state.crossoverRateOfGaByBook = +e.target.value)}
           type="number"
         />
@@ -35,7 +49,9 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
       <Col className="my-auto">Mutation rate</Col>
       <Col>
         <FormControl
-          value={state.mutationRateOfGaByBook ? state.mutationRateOfGaByBook.toString() : ''}
+          value={
+            state.mutationRateOfGaByBook != null ? state.mutationRateOfGaByBook.toString() : ''
+          }
           onChange={(e: any) => (state.mutationRateOfGaByBook = +e.target.value)}
           type="number"
         />
@@ -46,22 +62,10 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
       <Col className="my-auto">Elitism rate</Col>
       <Col>
         <FormControl
-          value={state.elitismRateOfGaByBook ? state.elitismRateOfGaByBook.toString() : ''}
+          value={state.elitismRateOfGaByBook != null ? state.elitismRateOfGaByBook.toString() : ''}
           onChange={(e: any) => (state.elitismRateOfGaByBook = +e.target.value)}
           type="number"
         />
-      </Col>
-    </Row>
-
-    <Row className="my-2">
-      <Col className="my-auto">
-        <div>Length: {state.pathLengthByGaByBook.toFixed(2)}</div>
-        <div className="small">Generation: {state.generationsOfGaByBook}</div>
-      </Col>
-      <Col className="my-auto">
-        <Button className="w-100" onClick={() => state.findPathByGaByBook()}>
-          find
-        </Button>
       </Col>
     </Row>
   </div>

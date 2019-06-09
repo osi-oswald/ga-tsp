@@ -20,7 +20,7 @@ export const GenerateCitiesControl = observer<{
       <Col>
         <Form onSubmit={pd(() => state.generateByLastChoice())}>
           <FormControl
-            value={state.nrOfCities ? state.nrOfCities.toString() : ''}
+            value={state.nrOfCities != null ? state.nrOfCities.toString() : ''}
             onChange={(e: any) => (state.nrOfCities = +e.target.value)}
             type="number"
             placeholder="Number of cities"

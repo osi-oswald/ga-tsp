@@ -10,17 +10,6 @@ export const FindPathByGaByMeControl = observer<{ state: RootState }>(({ state }
     <h6>Path by GA by me</h6>
 
     <Row className="my-2">
-      <Col className="my-auto">Population size</Col>
-      <Col>
-        <FormControl
-          value={state.populationOfGaByMe ? state.populationOfGaByMe.toString() : ''}
-          onChange={(e: any) => (state.populationOfGaByMe = +e.target.value)}
-          type="number"
-        />
-      </Col>
-    </Row>
-
-    <Row className="my-2">
       <Col className="my-auto">
         <div>Length: {state.pathLengthByGaByMe.toFixed(2)}</div>
         <div className="small">Generation: {state.generationsOfGaByMe}</div>
@@ -29,6 +18,17 @@ export const FindPathByGaByMeControl = observer<{ state: RootState }>(({ state }
         <Button className="w-100" onClick={() => state.findPathByGaByMe()}>
           find
         </Button>
+      </Col>
+    </Row>
+
+    <Row className="my-2">
+      <Col className="my-auto">Population size</Col>
+      <Col>
+        <FormControl
+          value={state.populationOfGaByMe != null ? state.populationOfGaByMe.toString() : ''}
+          onChange={(e: any) => (state.populationOfGaByMe = +e.target.value)}
+          type="number"
+        />
       </Col>
     </Row>
   </div>
