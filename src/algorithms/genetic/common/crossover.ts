@@ -1,10 +1,10 @@
-import { Chromosome } from './index';
 import { memoizeByRef, randomInclusive } from '../../common';
+import { Chromosome, Gene } from './types';
 
 export function crossoverOrder1<T>(
-  parent1: Chromosome<T> | T[],
-  parent2: Chromosome<T> | T[]
-): [T[], T[]] {
+  parent1: Chromosome<T> | Gene<T>[],
+  parent2: Chromosome<T> | Gene<T>[]
+): [Gene<T>[], Gene<T>[]] {
   const length = parent1.length;
 
   if (length !== parent2.length) {
@@ -50,7 +50,7 @@ export function crossoverOrder1<T>(
 
 function fillMissing<T>(
   index: number,
-  child: T[],
+  child: Gene<T>[],
   childSet: Set<T>,
   parentIter: IterableIterator<T>
 ) {

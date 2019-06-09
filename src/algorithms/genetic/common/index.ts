@@ -1,8 +1,3 @@
-import { fitnessSym } from './fitness';
-
-export type Gene<T = unknown> = T;
-export type Chromosome<T = unknown> = T[] & { [fitnessSym]: number };
-
 // https://www.w3resource.com/javascript-exercises/javascript-array-exercise-18.php
 export function binarySearchAsc<T>(items: T[], item: T, getValue: (i: T) => number) {
   let firstIndex = 0;

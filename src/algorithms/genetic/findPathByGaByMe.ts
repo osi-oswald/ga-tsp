@@ -1,10 +1,10 @@
 import { Point } from '../common/points';
 import { shuffle } from '../common';
-import { Chromosome } from './common';
 import { pickRoulette } from './common/selection';
 import { crossoverOrder1, reverse } from './common/crossover';
 import { mutateDeleteAndRepair } from './common/mutation';
 import { addFitness, fitnessAsc, fitnessSym } from './common/fitness';
+import { Population } from './common/types';
 
 export function findPathByGaByMe<T extends Point>(args: {
   cities: T[];
@@ -26,7 +26,7 @@ export function findPathByGaByMe<T extends Point>(args: {
 
   // Initialize population
   let populationFitness = 0;
-  let population: Chromosome<T>[] = [];
+  let population: Population<T> = [];
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
@@ -37,7 +37,7 @@ export function findPathByGaByMe<T extends Point>(args: {
   let staleGenerations = 0;
   let bestFitness = population[0][fitnessSym];
   while (generations <= maxGenerations && staleGenerations <= maxStaleGenerations) {
-    const populationPool: Chromosome<T>[] = [];
+    const populationPool: Population<T> = [];
 
     while (populationPool.length < args.populationSize) {
       // Candidate Selection
@@ -60,7 +60,7 @@ export function findPathByGaByMe<T extends Point>(args: {
 
     // Population Selection
     let newPopulationFitness = 0;
-    const newPopulation: Chromosome<T>[] = [];
+    const newPopulation: Population<T> = [];
     const iter = population[Symbol.iterator]();
     const poolIter = populationPool[Symbol.iterator]();
     let iterValue = iter.next().value;

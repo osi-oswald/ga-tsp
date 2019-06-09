@@ -1,8 +1,8 @@
-import { Chromosome } from './index';
 import { fitnessSym } from './fitness';
 import { randomExclusive } from '../../common';
+import { Chromosome, Population } from './types';
 
-export function pickRandom<T>(population: Chromosome<T>[], exclude?: Chromosome<T>) {
+export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>) {
   let pick = population[randomExclusive(population.length)];
   if (pick === exclude) {
     population = population.filter(c => c !== exclude);
@@ -17,7 +17,7 @@ export function pickRandom<T>(population: Chromosome<T>[], exclude?: Chromosome<
 }
 
 export function pickRoulette<T>(
-  population: Chromosome<T>[],
+  population: Population<T>,
   populationFitness: number,
   exclude?: Chromosome<T>
 ): Chromosome<T> {

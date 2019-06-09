@@ -1,14 +1,14 @@
-import { Chromosome } from './index';
 import { randomExclusive, shuffle } from '../../common';
+import { Chromosome, Gene } from './types';
 
-export function swapWithNext<T>(target: T[], index: number) {
+export function swapWithNext<T>(target: Gene<T>[], index: number): void {
   const temp = target[index];
   const indexNext = (index + 1) % target.length;
   target[index] = target[indexNext];
   target[indexNext] = temp;
 }
 
-export function mutateSwap1<T>(candidate: Chromosome<T>): T[] {
+export function mutateSwap1<T>(candidate: Chromosome<T>): Gene<T>[] {
   const length = candidate.length;
   if (length < 2) {
     throw new Error('mutateSwap1: chromosome length must be > 1');

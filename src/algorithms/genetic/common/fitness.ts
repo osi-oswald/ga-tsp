@@ -1,5 +1,5 @@
 import { pathLength, Point } from '../../common/points';
-import { Chromosome } from './index';
+import { Chromosome, Gene } from './types';
 
 export function fitness(path: Point[]): number {
   return pathLength(path);
@@ -7,7 +7,7 @@ export function fitness(path: Point[]): number {
 
 export const fitnessSym = Symbol('fitness');
 
-export function addFitness<T extends Point>(candidate: T[]): Chromosome<T> {
+export function addFitness<T extends Point>(candidate: Gene<T>[]): Chromosome<T> {
   candidate[fitnessSym] = fitness(candidate);
   return candidate as Chromosome<T>;
 }
