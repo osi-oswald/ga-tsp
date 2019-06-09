@@ -49,10 +49,9 @@ export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<
 
   let pick = population.elite;
   const pickTarget = Math.random() * population.fitnessSum;
+  addAccumulatedFitness(population);
 
   if (pickTarget >= population.elite[fitnessSym]) {
-    addAccumulatedFitness(population);
-
     // using binary search
     let firstIndex = 0;
     let lastIndex = population.length - 1;
