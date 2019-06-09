@@ -17,15 +17,21 @@ function repick<T>(
   }
 }
 
+function checkPopulation(population: Population) {
+  if (!population.length) {
+    throw new Error('pickRoulette: population size must be > 0');
+  }
+}
+
 export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
+  checkPopulation(population);
+
   let pick = population[randomExclusive(population.length)];
   return pick === exclude ? repick(population, exclude!, pickRandom) : pick;
 }
 
 export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
-  if (!population.length) {
-    throw new Error('pickRoulette: population size must be > 0');
-  }
+  checkPopulation(population);
 
   let accumulator = 0;
   let pick: Chromosome<T>;

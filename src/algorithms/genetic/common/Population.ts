@@ -1,7 +1,7 @@
 import { fitnessSym } from './fitness';
 import { Chromosome } from './index';
 
-export class Population<T> {
+export class Population<T = unknown> {
   fitnessSum: number = 0;
   candidates: Chromosome<T>[] = [];
 
