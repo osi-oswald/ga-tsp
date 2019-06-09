@@ -3,7 +3,7 @@ import { shuffle } from '../common';
 import { pickRoulette } from './common/selection';
 import { crossoverOrder1, reverse } from './common/crossover';
 import { mutateSwap1 } from './common/mutation';
-import { addFitness, fitnessAsc, fitnessSym } from './common/fitness';
+import { addFitness, fitnessSym } from './common/fitness';
 import { Population } from './common/Population';
 
 export function findPathByGaByBook<T extends Point>(args: {
@@ -33,7 +33,7 @@ export function findPathByGaByBook<T extends Point>(args: {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
   }
-  population.sort(fitnessAsc);
+  population.sortByFitnessAsc();
 
   let staleGenerations = 0;
   let bestFitness = population.elite[fitnessSym];
@@ -49,10 +49,12 @@ export function findPathByGaByBook<T extends Point>(args: {
       // Crossover
       if (Math.random() < args.crossoverRate) {
         const mate = pickRoulette(population, candidate);
-        const children = crossoverOrder1(candidate, mate)
-          .concat(crossoverOrder1(candidate, reverse(mate)))
-          .map(c => addFitness(c));
-        candidate = children.sort(fitnessAsc)[0];
+        const children = new Population(
+          crossoverOrder1(candidate, mate)
+            .concat(crossoverOrder1(candidate, reverse(mate)))
+            .map(c => addFitness(c))
+        ).sortByFitnessAsc();
+        candidate = children.elite;
       }
 
       // Mutation
@@ -64,7 +66,7 @@ export function findPathByGaByBook<T extends Point>(args: {
     }
 
     population = newPopulation;
-    population.sort(fitnessAsc);
+    population.sortByFitnessAsc();
 
     generations++;
     if (population.elite[fitnessSym] < bestFitness) {
