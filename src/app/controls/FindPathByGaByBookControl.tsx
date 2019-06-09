@@ -7,7 +7,7 @@ import css from './control.module.scss';
 
 export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state }) => (
   <div className={css.control + ' my-3'}>
-    <h6>Path by GA by the book</h6>
+    <h6>GA by the book</h6>
 
     <Row className="my-2">
       <Col className="my-auto">

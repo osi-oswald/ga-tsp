@@ -8,7 +8,7 @@ export const FindPathByRandomControl = observer<{
   state: { findPathByRandom: Function; pathLengthByRandom: number };
 }>(({ state }) => (
   <div className={css.control + ' my-3'}>
-    <h6>Path by Random</h6>
+    <h6>Random</h6>
     <Row className="my-2">
       <Col className="my-auto">Length: {state.pathLengthByRandom.toFixed(2)}</Col>
       <Col className="my-auto">
