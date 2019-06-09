@@ -1,7 +1,5 @@
 ### todo
 
-- cache path length computation
-  - maybe add cache data to pints itself? (with weak maps)
 - animation of best population, length and generation
 - GA Input parameters
   - Also generic controls
@@ -18,6 +16,8 @@
 
 ### done
 
+- ✔ cache path length computation
+  - maybe add cache data to pints itself? (with weak maps)
 - ✔ Try delete & repair strategy?
   - mutation deletes genes, making the chromosome invalid
   - a repair function stitches it back together

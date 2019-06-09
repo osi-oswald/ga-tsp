@@ -40,6 +40,7 @@ export function pickRoulette<T>(
     throw new Error('pickRoulette: this should never happen ;-)');
   }
 
+  // should be rare
   if (pick === exclude) {
     population = population.filter(c => {
       if (c === exclude) {

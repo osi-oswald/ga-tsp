@@ -1,10 +1,10 @@
 import { Point } from '../common/points';
 import { shuffle } from '../common';
-import { Chromosome } from './utils';
-import { pickRoulette } from './utils/selection';
-import { crossoverOrder1, reverse } from './utils/crossover';
-import { mutateSwap1 } from './utils/mutation';
-import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
+import { Chromosome } from './common';
+import { pickRoulette } from './common/selection';
+import { crossoverOrder1, reverse } from './common/crossover';
+import { mutateSwap1 } from './common/mutation';
+import { addFitness, fitnessAsc, fitnessSym } from './common/fitness';
 
 export function findPathByGaByBook<T extends Point>(args: {
   cities: T[];

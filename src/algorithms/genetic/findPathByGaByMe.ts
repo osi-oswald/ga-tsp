@@ -1,10 +1,10 @@
 import { Point } from '../common/points';
 import { shuffle } from '../common';
-import { Chromosome } from './utils';
-import { pickRoulette } from './utils/selection';
-import { crossoverOrder1, reverse } from './utils/crossover';
-import { mutateDeleteAndRepair } from './utils/mutation';
-import { addFitness, fitnessAsc, fitnessSym } from './utils/fitness';
+import { Chromosome } from './common';
+import { pickRoulette } from './common/selection';
+import { crossoverOrder1, reverse } from './common/crossover';
+import { mutateDeleteAndRepair } from './common/mutation';
+import { addFitness, fitnessAsc, fitnessSym } from './common/fitness';
 
 export function findPathByGaByMe<T extends Point>(args: {
   cities: T[];
