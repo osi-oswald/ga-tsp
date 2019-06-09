@@ -22,10 +22,12 @@ export class RootState {
   @observable crossoverRateOfGaByBook: number = 0.3;
   @observable mutationRateOfGaByBook: number = 0.05;
   @observable elitismRateOfGaByBook: number = 0.05;
+  @observable terminateGaByBook?: Function;
 
   @observable pathByGaByMe: City[] = [];
   @observable generationsOfGaByMe: number = 0;
   @observable populationOfGaByMe: number = 1000;
+  @observable terminateGaByMe?: Function;
 
   constructor() {
     this.generateCitiesByRandom();
@@ -74,7 +76,7 @@ export class RootState {
 
   @action
   findPathByGaByBook() {
-    findPathByGaByBook({
+    this.terminateGaByBook = findPathByGaByBook({
       cities: toJS(this.cities),
       populationSize: this.populationOfGaByBook,
       crossoverRate: this.crossoverRateOfGaByBook,
@@ -85,13 +87,17 @@ export class RootState {
         this.path = report.path;
         this.pathByGaByBook = report.path;
         this.generationsOfGaByBook = report.generations;
+
+        if (report.isTerminated) {
+          this.terminateGaByBook = undefined;
+        }
       }
     });
   }
 
   @action
   findPathByGaByMe() {
-    findPathByGaByMe({
+    this.terminateGaByMe = findPathByGaByMe({
       cities: toJS(this.cities),
       populationSize: this.populationOfGaByMe,
       maxStaleGenerations: 20,
@@ -99,6 +105,10 @@ export class RootState {
         this.path = report.path;
         this.pathByGaByMe = report.path;
         this.generationsOfGaByMe = report.generations;
+
+        if (report.isTerminated) {
+          this.terminateGaByMe = undefined;
+        }
       }
     });
   }

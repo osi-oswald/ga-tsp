@@ -15,9 +15,15 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
         <div className="small">Generation: {state.generationsOfGaByBook}</div>
       </Col>
       <Col className="my-auto">
-        <Button className="w-100" onClick={() => state.findPathByGaByBook()}>
-          find
-        </Button>
+        {state.terminateGaByBook ? (
+          <Button className="w-100 bg-secondary" onClick={() => state.terminateGaByBook!()}>
+            stop
+          </Button>
+        ) : (
+          <Button className="w-100" onClick={() => state.findPathByGaByBook()}>
+            find
+          </Button>
+        )}
       </Col>
     </Row>
 

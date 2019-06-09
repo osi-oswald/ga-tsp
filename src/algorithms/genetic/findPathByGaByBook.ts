@@ -15,16 +15,13 @@ export function findPathByGaByBook<T extends Point>(args: {
   maxGenerations?: number;
   maxStaleGenerations?: number;
   reporting: (report: { path: T[]; generations: number; isTerminated: boolean }) => void;
-}): void {
+}) {
   let generations = 0;
 
   if (!args.cities.length || args.populationSize < 2) {
     return;
   }
 
-  if (!args.maxGenerations && !args.maxStaleGenerations) {
-    throw new Error('findPathByGaByBook: either maxGenerations or maxStaleGenerations must be set');
-  }
   const maxGenerations = args.maxGenerations || Infinity;
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
@@ -39,6 +36,10 @@ export function findPathByGaByBook<T extends Point>(args: {
   let isTerminated = false;
   let staleGenerations = 0;
   let bestFitness = population.elite[fitnessSym];
+
+  function terminate() {
+    isTerminated = true;
+  }
 
   function evolve() {
     const newPopulation = args.elitismRate
@@ -79,7 +80,7 @@ export function findPathByGaByBook<T extends Point>(args: {
       staleGenerations++;
     }
 
-    if (generations > maxGenerations || staleGenerations > maxStaleGenerations) {
+    if (isTerminated || generations > maxGenerations || staleGenerations > maxStaleGenerations) {
       isTerminated = true;
       clearInterval(evolution);
     }
@@ -88,4 +89,6 @@ export function findPathByGaByBook<T extends Point>(args: {
   }
 
   const evolution = setInterval(evolve);
+
+  return terminate;
 }
