@@ -6,7 +6,9 @@ export class Population<T = unknown> {
 
   [Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
 
-  constructor(public candidates: Chromosome<T>[] = [], public isSortedByFitness = false) {}
+  constructor(public candidates: Chromosome<T>[] = [], public isSortedByFitness = false) {
+    this.fitnessSum = candidates.reduce((sum, c) => sum + c[fitnessSym], 0);
+  }
 
   push(candidate: Chromosome<T>) {
     this.candidates.push(candidate);

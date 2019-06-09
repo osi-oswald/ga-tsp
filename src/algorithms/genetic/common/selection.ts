@@ -2,6 +2,7 @@ import { fitnessSym } from './fitness';
 import { randomExclusive } from '../../common';
 import { Chromosome } from './index';
 import { Population } from './Population';
+import { memoizeByRef } from '../../common/memoize';
 
 function repick<T>(
   population: Population<T>,
@@ -30,26 +31,44 @@ export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>
   return pick === exclude ? repick(population, exclude!, pickRandom) : pick;
 }
 
+const accumulatedFitnessSym = Symbol('accumulatedFitness');
+
+const addAccumulatedFitness = memoizeByRef(function addAccumulatedFitness<T>(
+  population: Population<T>
+) {
+  let accumulator = 0;
+  for (const candidate of population) {
+    accumulator += candidate[fitnessSym];
+    candidate[accumulatedFitnessSym] = accumulator;
+  }
+  return true;
+});
+
 export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
   checkPopulationLength(population);
 
-  if (!population.isSortedByFitness) {
-    throw new Error('pickRoulette: population must be sorted first');
-  }
+  let pick = population.elite;
+  const pickTarget = Math.random() * population.fitnessSum;
 
-  let accumulator = 0;
-  let pick: Chromosome<T>;
-  const pickIndex = Math.random() * population.fitnessSum;
-  for (const candidate of population) {
-    accumulator += candidate[fitnessSym];
-    if (pickIndex < accumulator) {
-      pick = candidate;
-      break;
+  if (pickTarget >= population.elite[fitnessSym]) {
+    addAccumulatedFitness(population);
+
+    // using binary search
+    let firstIndex = 0;
+    let lastIndex = population.length - 1;
+    let middleIndex = Math.floor((lastIndex + firstIndex) / 2);
+    let middle = population.candidates[middleIndex];
+
+    while (middleIndex > firstIndex) {
+      if (pickTarget < middle[accumulatedFitnessSym]) {
+        lastIndex = middleIndex - 1;
+      } else if (pickTarget > middle[accumulatedFitnessSym]) {
+        firstIndex = middleIndex + 1;
+      }
+      middleIndex = Math.floor((firstIndex + lastIndex) / 2);
+      middle = population.candidates[middleIndex];
     }
-  }
-
-  if (pick! == null) {
-    throw new Error('pickRoulette: this should never happen ;-)');
+    pick = population.candidates[middleIndex];
   }
 
   return pick === exclude ? repick(population, exclude!, pickRoulette) : pick;
