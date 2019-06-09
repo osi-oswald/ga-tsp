@@ -1,5 +1,5 @@
 import { randomExclusive, shuffle } from '../../common';
-import { Chromosome, Gene } from './types';
+import { Chromosome, Gene } from './index';
 
 export function swapWithNext<T>(target: Gene<T>[], index: number): void {
   const temp = target[index];

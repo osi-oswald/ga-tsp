@@ -1,5 +1,5 @@
 import { pathLength, Point } from '../../common/points';
-import { Chromosome, Gene } from './types';
+import { Chromosome, Gene } from './index';
 
 export function fitness(path: Point[]): number {
   return pathLength(path);
