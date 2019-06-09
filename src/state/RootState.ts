@@ -2,9 +2,9 @@ import { action, computed, observable, toJS } from 'mobx';
 import { pathLength } from '../algorithms/common/points';
 import { City, generateCitiesByRandom, generateCitiesInCircle } from '../algorithms/common/cities';
 import { findPathByNearestNeighbour } from '../algorithms/math/findPathByNearestNeighbour';
-import { shuffle } from '../algorithms/common';
 import { findPathByGaByBook } from '../algorithms/genetic/findPathByGaByBook';
 import { findPathByGaByMe } from '../algorithms/genetic/findPathByGaByMe';
+import { shuffle } from '../algorithms/common/shuffle';
 
 export class RootState {
   @observable cities: City[] = [];

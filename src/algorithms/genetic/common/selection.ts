@@ -17,27 +17,31 @@ function repick<T>(
   }
 }
 
-function checkPopulation(population: Population) {
+function checkPopulationLength(population: Population) {
   if (!population.length) {
     throw new Error('pickRoulette: population size must be > 0');
   }
 }
 
 export function pickRandom<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
-  checkPopulation(population);
+  checkPopulationLength(population);
 
   let pick = population[randomExclusive(population.length)];
   return pick === exclude ? repick(population, exclude!, pickRandom) : pick;
 }
 
 export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
-  checkPopulation(population);
+  checkPopulationLength(population);
+
+  if (!population.isSortedByFitness) {
+    throw new Error('pickRoulette: population must be sorted first');
+  }
 
   let accumulator = 0;
   let pick: Chromosome<T>;
-  const pickIndex = Math.random();
+  const pickIndex = Math.random() * population.fitnessSum;
   for (const candidate of population) {
-    accumulator += candidate[fitnessSym] / population.fitnessSum;
+    accumulator += candidate[fitnessSym];
     if (pickIndex < accumulator) {
       pick = candidate;
       break;

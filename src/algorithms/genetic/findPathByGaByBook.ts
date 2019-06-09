@@ -1,10 +1,10 @@
 import { Point } from '../common/points';
-import { shuffle } from '../common';
 import { pickRoulette } from './common/selection';
 import { crossoverOrder1, reverse } from './common/crossover';
 import { mutateSwap1 } from './common/mutation';
 import { addFitness, fitnessSym } from './common/fitness';
 import { Population } from './common/Population';
+import { shuffle } from '../common/shuffle';
 
 export function findPathByGaByBook<T extends Point>(args: {
   cities: T[];
