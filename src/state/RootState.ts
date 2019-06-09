@@ -11,12 +11,21 @@ export class RootState {
   @observable generatorChoice: any;
   @observable nrOfCities: number = 50;
   @observable path: City[] = [];
+
   @observable pathByNearestNeighbour: City[] = [];
+
   @observable pathByRandom: City[] = [];
+
   @observable pathByGaByBook: City[] = [];
   @observable generationsOfGaByBook: number = 0;
+  @observable populationOfGaByBook: number = 1000;
+  @observable crossoverRateOfGaByBook: number = 0.3;
+  @observable mutationRateOfGaByBook: number = 0.05;
+  @observable elitismRateOfGaByBook: number = 0.05;
+
   @observable pathByGaByMe: City[] = [];
   @observable generationsOfGaByMe: number = 0;
+  @observable populationOfGaByMe: number = 1000;
 
   constructor() {
     this.generateCitiesByRandom();
@@ -67,10 +76,10 @@ export class RootState {
   findPathByGaByBook() {
     findPathByGaByBook({
       cities: toJS(this.cities),
-      populationSize: 1000,
-      crossoverRate: 0.3,
-      mutationRate: 0.05,
-      elitismRate: 0.05,
+      populationSize: this.populationOfGaByBook,
+      crossoverRate: this.crossoverRateOfGaByBook,
+      mutationRate: this.mutationRateOfGaByBook,
+      elitismRate: this.elitismRateOfGaByBook,
       maxStaleGenerations: 20,
       reporting: report => {
         this.path = report.path;
@@ -84,7 +93,7 @@ export class RootState {
   findPathByGaByMe() {
     findPathByGaByMe({
       cities: toJS(this.cities),
-      populationSize: 1000,
+      populationSize: this.populationOfGaByMe,
       maxStaleGenerations: 20,
       reporting: report => {
         this.path = report.path;

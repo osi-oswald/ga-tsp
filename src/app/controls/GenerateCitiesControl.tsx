@@ -3,6 +3,7 @@ import { Col, Form, FormControl, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { pd } from '../utils';
+import css from './control.module.scss';
 
 export const GenerateCitiesControl = observer<{
   state: {
@@ -12,7 +13,7 @@ export const GenerateCitiesControl = observer<{
     nrOfCities: number;
   };
 }>(({ state }) => (
-  <div className="my-4">
+  <div className={css.control + ' my-3'}>
     <h6>Generate cities</h6>
     <Row className="my-2">
       <Col className="my-auto">Count</Col>

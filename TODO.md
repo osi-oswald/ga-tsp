@@ -1,7 +1,5 @@
 ### todo
 
-- GA Input parameters
-  - Also generic controls
 - Use webworkers?
 - Improve roulette function?
   - store accumulated fitness
@@ -13,6 +11,8 @@
 
 ### done
 
+- ✔ GA Input parameters
+  - Also generic controls
 - ✔ animation of best population, length and generation
 - ✔ cache path length computation
   - maybe add cache data to pints itself? (with weak maps)
