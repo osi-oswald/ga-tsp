@@ -1,5 +1,6 @@
-import { memoizeByRef, randomInclusive } from '../../common';
+import { randomInclusive } from '../../common';
 import { Chromosome, Gene } from './index';
+import { memoizeByRef } from '../../common/memoize';
 
 export function crossoverOrder1<T>(
   parent1: Chromosome<T> | Gene<T>[],
