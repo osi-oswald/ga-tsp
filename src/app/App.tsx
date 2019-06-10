@@ -19,7 +19,7 @@ const App = observer<{ state: RootState }>(({ state }) => (
       <FindPathByGaByBookControl state={state} />
       <FindPathByGaByMeControl state={state} />
     </div>
-    <div className={css.rightPane + ' p-5'}>
+    <div className={css.rightPane}>
       <CitiesCanvas cities={state.cities} path={state.path} />
     </div>
   </div>
