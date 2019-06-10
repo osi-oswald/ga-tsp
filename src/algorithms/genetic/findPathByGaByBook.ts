@@ -42,6 +42,7 @@ export function findPathByGaByBook<T extends Point>(args: {
   }
 
   function evolve() {
+    // Elitism
     const newPopulation = args.elitismRate
       ? population.elites(population.length * args.elitismRate)
       : new Population<T>();
@@ -55,7 +56,7 @@ export function findPathByGaByBook<T extends Point>(args: {
         const mate = pickRoulette(population, candidate);
         const children = new Population(
           crossoverOrder1(candidate, mate)
-            .concat(crossoverOrder1(candidate, reverse(mate)))
+            .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
             .map(addFitness)
         ).sortByFitnessAsc();
         candidate = children.elite;
