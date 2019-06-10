@@ -41,11 +41,11 @@ export function findPathByGaByMe<T extends Point>(args: {
     const tempPopulation = new Population<T>();
 
     while (tempPopulation.length < args.populationSize) {
-      // Candidate Selection
+      // Selection
       let candidate = pickRoulette(population);
       let mate = pickRoulette(population, candidate);
 
-      // Candidate Crossover
+      // Crossover
       const children = new Population(
         crossoverOrder1(candidate, mate)
           .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
@@ -53,7 +53,7 @@ export function findPathByGaByMe<T extends Point>(args: {
       ).sortByFitnessAsc();
       candidate = children.elite;
 
-      // Candidate Mutation
+      // Mutation
       const mutationRate = Math.random();
       candidate = addFitness(mutateDeleteAndRepair(candidate, mutationRate));
 
@@ -67,7 +67,7 @@ export function findPathByGaByMe<T extends Point>(args: {
     let candidate = iter.next().value;
     let tempCandidate = tempIter.next().value;
 
-    // take best of current and temp population
+    // Elitism
     while (newPopulation.length < args.populationSize) {
       if (candidate[fitnessSym] < tempCandidate[fitnessSym]) {
         newPopulation.push(candidate);
