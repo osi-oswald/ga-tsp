@@ -1,4 +1,4 @@
-Playing around with Genetic Algorithms (GA) on the Traveling Salesman Problem (TSP).
+Solving Traveling Salesman Problem (TSP) with a genetic algorithm (GA)
 
 # Try it out :-)
 
