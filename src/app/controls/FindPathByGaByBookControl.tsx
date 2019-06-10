@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Col, FormControl, Row } from 'react-bootstrap';
+import { Col, FormControl, Row, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { RootState } from '../../state/RootState';
@@ -41,37 +41,60 @@ export const FindPathByGaByBookControl = observer<{ state: RootState }>(({ state
     <Row className="my-2">
       <Col className="my-auto">Crossover rate</Col>
       <Col>
-        <FormControl
-          value={
-            state.crossoverRateOfGaByBook != null ? state.crossoverRateOfGaByBook.toString() : ''
-          }
-          onChange={(e: any) => (state.crossoverRateOfGaByBook = +e.target.value)}
-          type="number"
-        />
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend">%</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            value={
+              state.crossoverRateOfGaByBook != null
+                ? (state.crossoverRateOfGaByBook * 100).toString()
+                : ''
+            }
+            onChange={(e: any) => (state.crossoverRateOfGaByBook = +e.target.value / 100)}
+            type="number"
+          />
+        </InputGroup>
       </Col>
     </Row>
 
     <Row className="my-2">
       <Col className="my-auto">Mutation rate</Col>
       <Col>
-        <FormControl
-          value={
-            state.mutationRateOfGaByBook != null ? state.mutationRateOfGaByBook.toString() : ''
-          }
-          onChange={(e: any) => (state.mutationRateOfGaByBook = +e.target.value)}
-          type="number"
-        />
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend">%</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            value={
+              state.mutationRateOfGaByBook != null
+                ? (state.mutationRateOfGaByBook * 100).toString()
+                : ''
+            }
+            onChange={(e: any) => (state.mutationRateOfGaByBook = +e.target.value / 100)}
+            type="number"
+          />
+        </InputGroup>
       </Col>
     </Row>
 
     <Row className="my-2">
       <Col className="my-auto">Elitism rate</Col>
       <Col>
-        <FormControl
-          value={state.elitismRateOfGaByBook != null ? state.elitismRateOfGaByBook.toString() : ''}
-          onChange={(e: any) => (state.elitismRateOfGaByBook = +e.target.value)}
-          type="number"
-        />
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend">%</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            value={
+              state.elitismRateOfGaByBook != null
+                ? (state.elitismRateOfGaByBook * 100).toString()
+                : ''
+            }
+            onChange={(e: any) => (state.elitismRateOfGaByBook = +e.target.value / 100)}
+            type="number"
+          />
+        </InputGroup>
       </Col>
     </Row>
   </div>

@@ -52,12 +52,14 @@ export class RootState {
 
   @action
   generateCitiesByRandom() {
+    this.nrOfCities = Math.max(this.nrOfCities || 0, 3);
     this.resetCities(generateCitiesByRandom(this.nrOfCities));
     this.generatorChoice = this.generateCitiesByRandom;
   }
 
   @action
   generateCitiesInCircle() {
+    this.nrOfCities = Math.max(this.nrOfCities || 0, 3);
     this.resetCities(generateCitiesInCircle(this.nrOfCities));
     this.generatorChoice = this.generateCitiesInCircle;
   }
@@ -76,6 +78,14 @@ export class RootState {
 
   @action
   findPathByGaByBook() {
+    this.populationOfGaByBook = Math.max(this.populationOfGaByBook || 0, 2);
+    this.crossoverRateOfGaByBook = Math.max(this.crossoverRateOfGaByBook || 0, 0);
+    this.crossoverRateOfGaByBook = Math.min(this.crossoverRateOfGaByBook || 0, 1);
+    this.mutationRateOfGaByBook = Math.max(this.mutationRateOfGaByBook || 0, 0);
+    this.mutationRateOfGaByBook = Math.min(this.mutationRateOfGaByBook || 0, 1);
+    this.elitismRateOfGaByBook = Math.max(this.elitismRateOfGaByBook || 0, 0);
+    this.elitismRateOfGaByBook = Math.min(this.elitismRateOfGaByBook || 0, 1);
+
     this.terminateGaByBook = findPathByGaByBook({
       cities: toJS(this.cities),
       populationSize: this.populationOfGaByBook,
@@ -97,6 +107,8 @@ export class RootState {
 
   @action
   findPathByGaByMe() {
+    this.populationOfGaByMe = Math.max(this.populationOfGaByMe || 0, 2);
+
     this.terminateGaByMe = findPathByGaByMe({
       cities: toJS(this.cities),
       populationSize: this.populationOfGaByMe,
