@@ -78,6 +78,11 @@ export class RootState {
 
   @action
   findPathByGaByBook() {
+    if (this.terminateGaByMe) {
+      this.terminateGaByMe();
+      this.terminateGaByMe = undefined;
+    }
+
     this.populationOfGaByBook = Math.max(this.populationOfGaByBook || 0, 2);
     this.crossoverRateOfGaByBook = Math.max(this.crossoverRateOfGaByBook || 0, 0);
     this.crossoverRateOfGaByBook = Math.min(this.crossoverRateOfGaByBook || 0, 1);
@@ -107,6 +112,11 @@ export class RootState {
 
   @action
   findPathByGaByMe() {
+    if (this.terminateGaByBook) {
+      this.terminateGaByBook();
+      this.terminateGaByBook = undefined;
+    }
+
     this.populationOfGaByMe = Math.max(this.populationOfGaByMe || 0, 2);
 
     this.terminateGaByMe = findPathByGaByMe({
