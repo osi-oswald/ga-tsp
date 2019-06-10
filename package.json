@@ -1,7 +1,10 @@
 {
-  "name": "ga",
+  "name": "ga-tsp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://osi-oswald.github.io/ga-tsp/",
+  "repository": "github:osi-oswald/ga-tsp",
+  "author": "Patrick Oswald",
   "dependencies": {
     "@types/classnames": "2.2.8",
     "@types/jest": "24.0.13",
