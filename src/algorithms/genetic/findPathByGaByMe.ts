@@ -38,9 +38,9 @@ export function findPathByGaByMe<T extends Point>(args: {
   }
 
   function evolve() {
-    const populationPool = new Population<T>();
+    const tempPopulation = new Population<T>();
 
-    while (populationPool.length < args.populationSize) {
+    while (tempPopulation.length < args.populationSize) {
       // Candidate Selection
       let candidate = pickRoulette(population);
       let mate = pickRoulette(population, candidate);
@@ -48,8 +48,8 @@ export function findPathByGaByMe<T extends Point>(args: {
       // Candidate Crossover
       const children = new Population(
         crossoverOrder1(candidate, mate)
-          .concat(crossoverOrder1(candidate, reverse(mate)))
-          .map(c => addFitness(c))
+          .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
+          .map(addFitness)
       ).sortByFitnessAsc();
       candidate = children.elite;
 
@@ -57,24 +57,24 @@ export function findPathByGaByMe<T extends Point>(args: {
       const mutationRate = Math.random();
       candidate = addFitness(mutateDeleteAndRepair(candidate, mutationRate));
 
-      populationPool.push(candidate);
+      tempPopulation.push(candidate);
     }
-    populationPool.sortByFitnessAsc();
+    tempPopulation.sortByFitnessAsc();
 
-    // Population Selection
     const newPopulation = new Population<T>();
     const iter = population[Symbol.iterator]();
-    const poolIter = populationPool[Symbol.iterator]();
-    let iterValue = iter.next().value;
-    let poolIterValue = poolIter.next().value;
+    const tempIter = tempPopulation[Symbol.iterator]();
+    let candidate = iter.next().value;
+    let tempCandidate = tempIter.next().value;
 
+    // take best of current and temp population
     while (newPopulation.length < args.populationSize) {
-      if (iterValue[fitnessSym] < poolIterValue[fitnessSym]) {
-        newPopulation.push(iterValue);
-        iterValue = iter.next().value;
+      if (candidate[fitnessSym] < tempCandidate[fitnessSym]) {
+        newPopulation.push(candidate);
+        candidate = iter.next().value;
       } else {
-        newPopulation.push(poolIterValue);
-        poolIterValue = poolIter.next().value;
+        newPopulation.push(tempCandidate);
+        tempCandidate = tempIter.next().value;
       }
     }
 

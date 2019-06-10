@@ -1,16 +1,14 @@
 ### todo
 
-- Use webworkers?
-- Improve roulette function?
-  - store accumulated fitness
-  - use binary search to find pick
-  - ✔ store population fitness
-  - ✔ try eliminate exclude differently
-
 ### low prio
 
 ### done
 
+- ✔ Improve roulette function?
+  - ✔ store accumulated fitness
+  - ✔ use binary search to find pick
+  - ✔ store population fitness
+  - ✔ try eliminate exclude differently
 - ✔ GA Input parameters
   - Also generic controls
 - ✔ animation of best population, length and generation

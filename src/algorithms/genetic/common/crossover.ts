@@ -18,11 +18,11 @@ export function crossoverOrder1<T>(
   const start = randomInclusive(0, length - 2);
   const end = randomInclusive(start + 1, length);
 
-  const parten1Iter = parent1[Symbol.iterator]();
+  const parent1Iter = parent1[Symbol.iterator]();
   const child1: T[] = [];
   const child1Set = new Set<T>();
 
-  const parten2Iter = parent2[Symbol.iterator]();
+  const parent2Iter = parent2[Symbol.iterator]();
   const child2: T[] = [];
   const child2Set = new Set<T>();
 
@@ -36,14 +36,14 @@ export function crossoverOrder1<T>(
 
   // head section
   for (let i = 0; i < start; i++) {
-    fillMissing(i, child1, child1Set, parten2Iter);
-    fillMissing(i, child2, child2Set, parten1Iter);
+    fillMissing(i, child1, child1Set, parent2Iter);
+    fillMissing(i, child2, child2Set, parent1Iter);
   }
 
   // tail section
   for (let i = end; i < length; i++) {
-    fillMissing(i, child1, child1Set, parten2Iter);
-    fillMissing(i, child2, child2Set, parten1Iter);
+    fillMissing(i, child1, child1Set, parent2Iter);
+    fillMissing(i, child2, child2Set, parent1Iter);
   }
 
   return [child1, child2];

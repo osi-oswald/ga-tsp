@@ -2,13 +2,6 @@ import { randomExclusive } from '../../common';
 import { Chromosome, Gene } from './index';
 import { shuffle } from '../../common/shuffle';
 
-export function swapWithNext<T>(target: Gene<T>[], index: number): void {
-  const temp = target[index];
-  const indexNext = (index + 1) % target.length;
-  target[index] = target[indexNext];
-  target[indexNext] = temp;
-}
-
 export function mutateSwap1<T>(candidate: Chromosome<T>): Gene<T>[] {
   const length = candidate.length;
   if (length < 2) {
@@ -16,7 +9,10 @@ export function mutateSwap1<T>(candidate: Chromosome<T>): Gene<T>[] {
   }
 
   const mutated = [...candidate];
-  swapWithNext(mutated, randomExclusive(length));
+  const index1 = randomExclusive(length);
+  const index2 = randomExclusive(length); // ignore if index2 === index1
+  mutated[index1] = candidate[index2];
+  mutated[index2] = candidate[index1];
 
   return mutated;
 }

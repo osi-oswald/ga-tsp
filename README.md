@@ -1,44 +1,73 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Playing around with Genetic Algorithms (GA) on the Traveling Salesman Problem (TSP).
 
-## Available Scripts
+# Generate Cities
 
-In the project directory, you can run:
+## Count
 
-### `npm start`
+Number of cities to generate.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Random
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Generates cities by random coordinates.
 
-### `npm test`
+## Circle
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Generates cities on a circle. The optimal TSP solution for humans is obvious
+(just walking along the circle). But the GA does not know that ;-)
 
-### `npm run build`
+# Find Paths
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Random
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Simply finds a path by picking a random city after another.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Nearest Neighbour
 
-### `npm run eject`
+Finds a path by picking the closest city after another. It will always find the
+optimal path if the cities were generated on a circle.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## GA by the book
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+GA implemented as found documented on several sources.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Selection
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Selection is done by [Roulette Wheel](http://www.rubicite.com/Tutorials/GeneticAlgorithms/SelectionBias.aspx).
 
-## Learn More
+### Crossover rate
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The chance that 2 selected candidates are being crossed over. It uses the
+[Order 1 Crossover](http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx)
+operator.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Mutation rate
+
+The chance that a candidate is getting mutated. The mutation will swap two arbitrary cities.
+
+### Elitism rate
+
+How much of the best candidates (elites) of the current generation are being taken over
+to the next generation (without crossover and mutation).
+
+## GA by osi-oswald 😎
+
+I tried out some ideas of my own. Apart from the population size, no additional parameters
+are needed.
+
+### Selection
+
+Selection is done by [Roulette Wheel](http://www.rubicite.com/Tutorials/GeneticAlgorithms/SelectionBias.aspx).
+
+### Crossover
+
+It always applies crossover to candidates (using [Order 1 Crossover](http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx)).
+
+### Mutation
+
+It always mutates candidates by a random mutation rate (0 - 99%). The mutation deletes
+arbitrary paths (depending on mutation rate) and repairs them again randomly.
+
+### Elitism
+
+Instead of an elitism rate, the next generation is selected by the elites of the previous
+generation and newly computed generation.

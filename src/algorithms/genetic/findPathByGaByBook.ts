@@ -56,7 +56,7 @@ export function findPathByGaByBook<T extends Point>(args: {
         const children = new Population(
           crossoverOrder1(candidate, mate)
             .concat(crossoverOrder1(candidate, reverse(mate)))
-            .map(c => addFitness(c))
+            .map(addFitness)
         ).sortByFitnessAsc();
         candidate = children.elite;
       }
