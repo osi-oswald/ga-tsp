@@ -43,6 +43,11 @@ export class RootState {
     this.generationsOfGaByBook = 0;
     this.pathByGaByMe = [];
     this.generationsOfGaByMe = 0;
+    this.stopGAs();
+  }
+
+  @action
+  stopGAs() {
     this.terminateGaByBook = this.terminateGaByBook ? this.terminateGaByBook() : undefined;
     this.terminateGaByMe = this.terminateGaByMe ? this.terminateGaByMe() : undefined;
   }
@@ -68,19 +73,21 @@ export class RootState {
 
   @action
   findPathByNearestNeighbour() {
+    this.stopGAs();
     this.path = findPathByNearestNeighbour(this.cities);
     this.pathByNearestNeighbour = this.path;
   }
 
   @action
   findPathByRandom() {
+    this.stopGAs();
     this.path = shuffle(this.cities);
     this.pathByRandom = this.path;
   }
 
   @action
   findPathByGaByBook() {
-    this.terminateGaByMe = this.terminateGaByMe ? this.terminateGaByMe() : undefined;
+    this.stopGAs();
 
     this.populationOfGaByBook = Math.max(this.populationOfGaByBook || 0, 2);
     this.crossoverRateOfGaByBook = Math.max(this.crossoverRateOfGaByBook || 0, 0);
@@ -90,16 +97,15 @@ export class RootState {
     this.elitismRateOfGaByBook = Math.max(this.elitismRateOfGaByBook || 0, 0);
     this.elitismRateOfGaByBook = Math.min(this.elitismRateOfGaByBook || 0, 1);
 
-    const cities = this.cities;
     this.terminateGaByBook = findPathByGaByBook({
-      cities: toJS(cities),
+      cities: toJS(this.cities),
       populationSize: this.populationOfGaByBook,
       crossoverRate: this.crossoverRateOfGaByBook,
       mutationRate: this.mutationRateOfGaByBook,
       elitismRate: this.elitismRateOfGaByBook,
       maxStaleGenerations: 20,
       reporting: report => {
-        if (this.cities === cities) {
+        if (this.terminateGaByBook) {
           this.path = report.path;
           this.pathByGaByBook = report.path;
           this.generationsOfGaByBook = report.generations;
@@ -114,17 +120,16 @@ export class RootState {
 
   @action
   findPathByGaByMe() {
-    this.terminateGaByBook = this.terminateGaByBook ? this.terminateGaByBook() : undefined;
+    this.stopGAs();
 
     this.populationOfGaByMe = Math.max(this.populationOfGaByMe || 0, 2);
 
-    const cities = this.cities;
     this.terminateGaByMe = findPathByGaByMe({
-      cities: toJS(cities),
+      cities: toJS(this.cities),
       populationSize: this.populationOfGaByMe,
       maxStaleGenerations: 20,
       reporting: report => {
-        if (this.cities === cities) {
+        if (this.terminateGaByMe) {
           this.path = report.path;
           this.pathByGaByMe = report.path;
           this.generationsOfGaByMe = report.generations;
