@@ -1,5 +1,11 @@
 ### todo
 
+- have I implemented roulette right?
+- throttle reporting
+- mutation (maybe other operators) can be mutable
+- exponential rank selection
+- continuous population
+
 ### low prio
 
 ### done

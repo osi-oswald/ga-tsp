@@ -26,12 +26,12 @@ export function findPathByGaByBook<T extends Point>(args: {
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
   // Initialize population
-  let population = new Population<T>();
+  let population = new Population<T>({ minimizeFitness: true });
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
   }
-  population.sortByFitnessAsc();
+  population.sort();
 
   let isTerminated = false;
   let staleGenerations = 0;
@@ -45,7 +45,7 @@ export function findPathByGaByBook<T extends Point>(args: {
     // Elitism
     const newPopulation = args.elitismRate
       ? population.elites(population.length * args.elitismRate)
-      : new Population<T>();
+      : new Population<T>({ minimizeFitness: true });
 
     while (newPopulation.length < args.populationSize) {
       // Selection
@@ -54,11 +54,12 @@ export function findPathByGaByBook<T extends Point>(args: {
       // Crossover
       if (Math.random() < args.crossoverRate) {
         const mate = pickRoulette(population, candidate);
-        const children = new Population(
-          crossoverOrder1(candidate, mate)
+        const children = new Population({
+          minimizeFitness: true,
+          candidates: crossoverOrder1(candidate, mate)
             .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
             .map(addFitness)
-        ).sortByFitnessAsc();
+        });
         candidate = children.elite;
       }
 
@@ -71,7 +72,7 @@ export function findPathByGaByBook<T extends Point>(args: {
     }
 
     population = newPopulation;
-    population.sortByFitnessAsc();
+    population.sort();
     generations++;
 
     if (population.elite[fitnessSym] < bestFitness) {

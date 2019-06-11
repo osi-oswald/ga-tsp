@@ -21,12 +21,12 @@ export function findPathByGaByMe<T extends Point>(args: {
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
   // Initialize population
-  let population = new Population<T>();
+  let population = new Population<T>({ minimizeFitness: true });
   for (let i = 0; i < args.populationSize; i++) {
     const candidate = addFitness(shuffle(args.cities));
     population.push(candidate);
   }
-  population.sortByFitnessAsc();
+  population.sort();
 
   let isTerminated = false;
   let generations = 0;
@@ -38,7 +38,7 @@ export function findPathByGaByMe<T extends Point>(args: {
   }
 
   function evolve() {
-    const tempPopulation = new Population<T>();
+    const tempPopulation = new Population<T>({ minimizeFitness: true });
 
     while (tempPopulation.length < args.populationSize) {
       // Selection
@@ -46,11 +46,12 @@ export function findPathByGaByMe<T extends Point>(args: {
       let mate = pickRoulette(population, candidate);
 
       // Crossover
-      const children = new Population(
-        crossoverOrder1(candidate, mate)
+      const children = new Population({
+        minimizeFitness: true,
+        candidates: crossoverOrder1(candidate, mate)
           .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
           .map(addFitness)
-      ).sortByFitnessAsc();
+      });
       candidate = children.elite;
 
       // Mutation
@@ -59,9 +60,9 @@ export function findPathByGaByMe<T extends Point>(args: {
 
       tempPopulation.push(candidate);
     }
-    tempPopulation.sortByFitnessAsc();
+    tempPopulation.sort();
 
-    const newPopulation = new Population<T>();
+    const newPopulation = new Population<T>({ minimizeFitness: true });
     const iter = population[Symbol.iterator]();
     const tempIter = tempPopulation[Symbol.iterator]();
     let candidate = iter.next().value;
@@ -79,7 +80,7 @@ export function findPathByGaByMe<T extends Point>(args: {
     }
 
     population = newPopulation;
-    population.sortByFitnessAsc();
+    population.sort();
     generations++;
 
     if (population.elite[fitnessSym] < bestFitness) {

@@ -30,7 +30,7 @@ export class RootState {
   @observable terminateGaByMe?: Function;
 
   constructor() {
-    this.generateCitiesByRandom();
+    this.generateCitiesInCircle();
   }
 
   @action

@@ -2,41 +2,57 @@ import { fitnessSym } from './fitness';
 import { Chromosome } from './index';
 
 export class Population<T = unknown> {
+  candidates: Chromosome<T>[];
+  minimizeFitness: boolean;
+  isFitnessSorted: boolean;
   fitnessSum: number = 0;
+  [Symbol.iterator]: () => IterableIterator<Chromosome<T>>;
 
-  [Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
-
-  constructor(public candidates: Chromosome<T>[] = [], public isSortedByFitness = false) {
-    this.fitnessSum = candidates.reduce((sum, c) => sum + c[fitnessSym], 0);
+  constructor(conf?: {
+    candidates?: Chromosome<T>[];
+    minimizeFitness?: boolean;
+    isFitnessSorted?: boolean;
+  }) {
+    conf = conf || {};
+    this.candidates = conf.candidates || [];
+    this.minimizeFitness = conf.minimizeFitness || false;
+    this.isFitnessSorted = conf.isFitnessSorted || false;
+    this.fitnessSum = this.candidates.reduce((sum, c) => sum + c[fitnessSym], 0);
+    this[Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
   }
 
   push(candidate: Chromosome<T>) {
     this.candidates.push(candidate);
     this.fitnessSum += candidate[fitnessSym];
-    this.isSortedByFitness = false;
+    this.isFitnessSorted = false;
   }
 
-  sortByFitnessAsc(): this {
-    this.candidates.sort((a, b) => a[fitnessSym] - b[fitnessSym]);
-    this.isSortedByFitness = true;
-    return this;
-  }
-
-  sortByFitnessDesc(): this {
-    this.candidates.sort((a, b) => b[fitnessSym] - a[fitnessSym]);
-    this.isSortedByFitness = true;
-    return this;
+  sort(): void {
+    if (!this.isFitnessSorted) {
+      if (this.minimizeFitness) {
+        this.candidates.sort((a, b) => a[fitnessSym] - b[fitnessSym]);
+      } else {
+        this.candidates.sort((a, b) => b[fitnessSym] - a[fitnessSym]);
+      }
+      this.isFitnessSorted = true;
+    }
   }
 
   filter(predicate: (c: Chromosome) => boolean): Population<T> {
-    return new Population<T>(this.candidates.filter(predicate), this.isSortedByFitness);
+    return new Population<T>({
+      candidates: this.candidates.filter(predicate),
+      minimizeFitness: this.minimizeFitness,
+      isFitnessSorted: this.isFitnessSorted
+    });
   }
 
   elites(count: number): Population<T> {
-    if (!this.isSortedByFitness) {
-      throw new Error('Population: must be sorted first');
-    }
-    return new Population<T>(this.candidates.slice(0, count), true);
+    this.sort();
+    return new Population<T>({
+      candidates: this.candidates.slice(0, count),
+      minimizeFitness: this.minimizeFitness,
+      isFitnessSorted: true
+    });
   }
 
   get length() {
@@ -44,9 +60,7 @@ export class Population<T = unknown> {
   }
 
   get elite() {
-    if (!this.isSortedByFitness) {
-      throw new Error('Population: must be sorted first');
-    }
+    this.sort();
     return this.candidates[0];
   }
 }
