@@ -54,11 +54,11 @@ export function findPathByGaByBook<T extends Point>(args: {
       // Crossover
       if (Math.random() < args.crossoverRate) {
         const mate = pickRoulette(population, candidate);
-        const children = new Population({
-          candidates: crossoverOrder1(candidate, mate)
+        const children = new Population(
+          crossoverOrder1(candidate, mate)
             .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
             .map(addFitness)
-        });
+        );
         candidate = children.elite;
       }
 

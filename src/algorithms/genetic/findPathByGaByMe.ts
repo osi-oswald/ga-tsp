@@ -46,11 +46,11 @@ export function findPathByGaByMe<T extends Point>(args: {
       let mate = pickRoulette(population, candidate);
 
       // Crossover
-      const children = new Population({
-        candidates: crossoverOrder1(candidate, mate)
+      const children = new Population(
+        crossoverOrder1(candidate, mate)
           .concat(crossoverOrder1(candidate, reverse(mate))) // because of symmetric solutions
           .map(addFitness)
-      });
+      );
       candidate = children.elite;
 
       // Mutation

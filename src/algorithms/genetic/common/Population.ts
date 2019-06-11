@@ -1,18 +1,15 @@
 import { fitnessSym } from './fitness';
 import { Chromosome } from './index';
 
+/**
+ * Fitness is expected to be positive and getting maximized.
+ */
 export class Population<T = unknown> {
-  candidates: Chromosome<T>[];
-  isFitnessSorted: boolean;
   fitnessSum: number = 0;
-  [Symbol.iterator]: () => IterableIterator<Chromosome<T>>;
+  [Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
 
-  constructor(conf?: { candidates?: Chromosome<T>[]; isFitnessSorted?: boolean }) {
-    conf = conf || {};
-    this.candidates = conf.candidates || [];
-    this.isFitnessSorted = conf.isFitnessSorted || false;
+  constructor(public candidates: Chromosome<T>[] = [], public isFitnessSorted: boolean = false) {
     this.fitnessSum = this.candidates.reduce((sum, c) => sum + c[fitnessSym], 0);
-    this[Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
   }
 
   push(candidate: Chromosome<T>) {
@@ -29,18 +26,12 @@ export class Population<T = unknown> {
   }
 
   filter(predicate: (c: Chromosome) => boolean): Population<T> {
-    return new Population<T>({
-      candidates: this.candidates.filter(predicate),
-      isFitnessSorted: this.isFitnessSorted
-    });
+    return new Population<T>(this.candidates.filter(predicate), this.isFitnessSorted);
   }
 
   elites(count: number): Population<T> {
     this.sort();
-    return new Population<T>({
-      candidates: this.candidates.slice(0, count),
-      isFitnessSorted: true
-    });
+    return new Population<T>(this.candidates.slice(0, count), true);
   }
 
   get length() {
