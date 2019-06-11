@@ -3,19 +3,13 @@ import { Chromosome } from './index';
 
 export class Population<T = unknown> {
   candidates: Chromosome<T>[];
-  minimizeFitness: boolean;
   isFitnessSorted: boolean;
   fitnessSum: number = 0;
   [Symbol.iterator]: () => IterableIterator<Chromosome<T>>;
 
-  constructor(conf?: {
-    candidates?: Chromosome<T>[];
-    minimizeFitness?: boolean;
-    isFitnessSorted?: boolean;
-  }) {
+  constructor(conf?: { candidates?: Chromosome<T>[]; isFitnessSorted?: boolean }) {
     conf = conf || {};
     this.candidates = conf.candidates || [];
-    this.minimizeFitness = conf.minimizeFitness || false;
     this.isFitnessSorted = conf.isFitnessSorted || false;
     this.fitnessSum = this.candidates.reduce((sum, c) => sum + c[fitnessSym], 0);
     this[Symbol.iterator] = this.candidates[Symbol.iterator].bind(this.candidates);
@@ -29,11 +23,7 @@ export class Population<T = unknown> {
 
   sort(): void {
     if (!this.isFitnessSorted) {
-      if (this.minimizeFitness) {
-        this.candidates.sort((a, b) => a[fitnessSym] - b[fitnessSym]);
-      } else {
-        this.candidates.sort((a, b) => b[fitnessSym] - a[fitnessSym]);
-      }
+      this.candidates.sort((a, b) => b[fitnessSym] - a[fitnessSym]);
       this.isFitnessSorted = true;
     }
   }
@@ -41,7 +31,6 @@ export class Population<T = unknown> {
   filter(predicate: (c: Chromosome) => boolean): Population<T> {
     return new Population<T>({
       candidates: this.candidates.filter(predicate),
-      minimizeFitness: this.minimizeFitness,
       isFitnessSorted: this.isFitnessSorted
     });
   }
@@ -50,7 +39,6 @@ export class Population<T = unknown> {
     this.sort();
     return new Population<T>({
       candidates: this.candidates.slice(0, count),
-      minimizeFitness: this.minimizeFitness,
       isFitnessSorted: true
     });
   }
