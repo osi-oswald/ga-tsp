@@ -11,12 +11,15 @@ export function findPathByGaByMe<T extends Point>(args: {
   populationSize: number;
   maxGenerations?: number;
   maxStaleGenerations?: number;
+  reportingInterval?: number;
   reporting: (report: { path: T[]; generations: number; isTerminated: boolean }) => void;
 }) {
   if (!args.cities.length || args.populationSize < 2) {
     return;
   }
 
+  let lastReportingTime = Date.now();
+  const reportingInterval = args.reportingInterval || 100;
   const maxGenerations = args.maxGenerations || Infinity;
   const maxStaleGenerations = args.maxStaleGenerations || Infinity;
 
@@ -94,9 +97,13 @@ export function findPathByGaByMe<T extends Point>(args: {
       clearInterval(evolution);
     }
 
-    args.reporting({ path: population.elite, generations, isTerminated });
+    if (Date.now() - lastReportingTime >= reportingInterval || isTerminated) {
+      args.reporting({ path: population.elite, generations, isTerminated });
+      lastReportingTime = Date.now();
+    }
   }
 
+  evolve();
   const evolution = setInterval(evolve);
 
   return terminate;

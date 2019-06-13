@@ -1,14 +1,14 @@
 ### todo
 
-- throttle reporting
-- mutation (maybe other operators) can be mutable
-- exponential rank selection
 - continuous population
+- mutation (maybe other operators) can be mutable?
+- exponential rank selection
 
 ### low prio
 
 ### done
 
+- ✔ throttle reporting
 - ✔ Improve roulette function?
   - ✔ store accumulated fitness
   - ✔ use binary search to find pick
