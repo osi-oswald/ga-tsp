@@ -103,7 +103,6 @@ export class RootState {
       crossoverRate: this.crossoverRateOfGaByBook,
       mutationRate: this.mutationRateOfGaByBook,
       elitismRate: this.elitismRateOfGaByBook,
-      maxStaleGenerations: 20,
       reporting: report => {
         if (this.terminateGaByBook) {
           this.path = report.path;
@@ -127,7 +126,6 @@ export class RootState {
     this.terminateGaByMe = findPathByGaByMe({
       cities: toJS(this.cities),
       populationSize: this.populationOfGaByMe,
-      maxStaleGenerations: 20,
       reporting: report => {
         if (this.terminateGaByMe) {
           this.path = report.path;

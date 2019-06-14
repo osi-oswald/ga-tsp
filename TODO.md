@@ -1,7 +1,6 @@
 ### todo
 
-- termination criteria time based
-- continuous population
+- continuous population (adam + eve)
 - mutation (maybe other operators) can be mutable?
 - exponential rank selection
 
@@ -9,6 +8,7 @@
 
 ### done
 
+- ✔ termination criteria time based
 - ✔ throttle reporting
 - ✔ Improve roulette function?
   - ✔ store accumulated fitness
