@@ -46,27 +46,22 @@ const addAccumulatedFitness = memoizeByRef(function addAccumulatedFitness<T>(
 
 export function pickRoulette<T>(population: Population<T>, exclude?: Chromosome<T>): Chromosome<T> {
   checkPopulationLength(population);
-
-  let pick = population.elite;
-  const pickTarget = Math.random() * population.fitnessSum;
   addAccumulatedFitness(population);
 
-  if (pickTarget >= population.elite[fitnessSym]) {
-    // using binary search
-    let firstIndex = 0;
-    let lastIndex = population.length - 1;
-    let middleIndex = Math.floor((lastIndex + firstIndex) / 2);
-    let middle = population.candidates[middleIndex];
+  // using binary search
+  let lowIndex = 0;
+  let highIndex = population.length - 1;
+  let middleIndex = (highIndex + lowIndex) >>> 1;
+  let pick = population.candidates[middleIndex];
+  const pickTarget = Math.random() * population.fitnessSum;
 
-    while (middleIndex > firstIndex) {
-      if (pickTarget < middle[accumulatedFitnessSym]) {
-        lastIndex = middleIndex - 1;
-      } else if (pickTarget > middle[accumulatedFitnessSym]) {
-        firstIndex = middleIndex + 1;
-      }
-      middleIndex = Math.floor((firstIndex + lastIndex) / 2);
-      middle = population.candidates[middleIndex];
+  while (middleIndex > lowIndex) {
+    if (pickTarget < pick[accumulatedFitnessSym]) {
+      highIndex = middleIndex - 1;
+    } else if (pickTarget > pick[accumulatedFitnessSym]) {
+      lowIndex = middleIndex + 1;
     }
+    middleIndex = (highIndex + lowIndex) >>> 1;
     pick = population.candidates[middleIndex];
   }
 

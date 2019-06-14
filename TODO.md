@@ -1,5 +1,6 @@
 ### todo
 
+- termination criteria time based
 - continuous population
 - mutation (maybe other operators) can be mutable?
 - exponential rank selection
